@@ -7,7 +7,7 @@ export interface TokenPayload {
   type: JwtType;
 }
 
-export interface RequestUser extends Request {
+export interface RequestWithUser extends Request {
   user: User;
 }
 
