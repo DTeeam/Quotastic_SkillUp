@@ -34,7 +34,7 @@ async function bootstrap() {
 
   initSwagger(app);
 
-  const PORT = process.env.PORT || 8000;
+  const PORT = process.env.PORT || 8080;
   await app.listen(PORT);
   Logging.info(`I am listening on: ${await app.getUrl()}`);
 }
