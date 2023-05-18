@@ -23,6 +23,20 @@ export class AbstractService {
     }
   }
 
+  async findBy(condition, relations = []): Promise<any> {
+    try {
+      return this.repository.findOne({
+        where: condition,
+        relations,
+      });
+    } catch (error) {
+      Logging.error(error);
+      throw new InternalServerErrorException(
+        'Element search with condition failed :O',
+      );
+    }
+  }
+
   async findById(id: string, relations = []): Promise<any> {
     try {
       const element = await this.repository.findOne({
