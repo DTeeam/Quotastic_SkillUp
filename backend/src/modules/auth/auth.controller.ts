@@ -21,12 +21,12 @@ import { LocalAuthGuard } from './guard/local-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
-@Controller('auth')
+@Controller()
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('register')
+  @Post('signup')
   @Public()
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() body: RegisterUserDto): Promise<User> {
@@ -46,7 +46,8 @@ export class AuthController {
     return req.user;
   }
 
-  @Get()
+  //TODO add this to quotes controller probably
+  @Get('me')
   @HttpCode(HttpStatus.OK)
   async user(@Req() req: Request): Promise<User> {
     const cookie = req.cookies['access_token'];

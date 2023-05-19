@@ -10,6 +10,7 @@ import { DatabaseModule } from 'modules/database/database.module';
 import { LoggerMiddleware } from 'middleware/logger.middleware';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { QuotesModule } from './quotes/quotes.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,6 +21,7 @@ import { AuthModule } from './auth/auth.module';
     DatabaseModule,
     UsersModule,
     AuthModule,
+    QuotesModule,
   ],
   controllers: [],
   providers: [],
