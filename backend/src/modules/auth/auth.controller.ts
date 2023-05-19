@@ -19,7 +19,6 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { RequestWithUser } from 'interfaces/auth.interface';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
-import { get } from 'http';
 
 @ApiTags('auth')
 @Controller('auth')

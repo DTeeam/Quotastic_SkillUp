@@ -1,8 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import Logging from 'library/Logging';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import Logging from './library/Logging';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -31,6 +33,10 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
   };
+
+  app.useGlobalPipes(new ValidationPipe());
+  app.use(cookieParser());
+  app.use('/files', express.static('files'));
 
   initSwagger(app);
 
