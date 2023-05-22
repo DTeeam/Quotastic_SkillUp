@@ -1,5 +1,6 @@
 import { Base } from './base.entity';
 import { Column, Entity } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class Quote extends Base {
@@ -10,8 +11,5 @@ export class Quote extends Base {
   likes: number;
 
   @Column()
-  user: string;
-
-  @Column({ nullable: true })
-  image: string;
+  user: User;
 }
