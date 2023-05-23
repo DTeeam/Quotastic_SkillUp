@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional, isNotEmpty } from 'class-validator';
 import { User } from 'entities/user.entity';
 
 export class CreateUpdateQuoteDto {
@@ -7,12 +7,8 @@ export class CreateUpdateQuoteDto {
   @ApiProperty()
   quote: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   default: 0;
-  likes: number;
-
-  @IsNotEmpty()
-  @ApiProperty()
-  user: User;
+  votes: number;
 }

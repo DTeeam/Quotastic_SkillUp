@@ -27,6 +27,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
+  @UseGuards(LocalAuthGuard)
   @Public()
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() body: RegisterUserDto): Promise<User> {
@@ -46,7 +47,6 @@ export class AuthController {
     return req.user;
   }
 
-  //TODO add this to quotes controller probably
   @Get('me')
   @HttpCode(HttpStatus.OK)
   async user(@Req() req: Request): Promise<User> {
