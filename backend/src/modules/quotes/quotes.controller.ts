@@ -16,7 +16,6 @@ import { PaginatedResult } from 'interfaces/paginated-result.interface';
 import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('quotes')
 @Controller('quotes')
@@ -41,7 +40,7 @@ export class QuotesController {
     return this.quotesService.create(createQuoteDto);
   }
 
-  @Patch('/myquote:id')
+  @Patch('/myquote/:id')
   @HttpCode(HttpStatus.OK)
   async update(
     @Param('id') id: string,
@@ -52,19 +51,13 @@ export class QuotesController {
 
   @Patch(':id/upvote')
   @HttpCode(HttpStatus.OK)
-  async upvote(
-    @Param('id') id: string,
-    @Body() createQuoteDto: CreateUpdateQuoteDto,
-  ): Promise<Quote> {
+  async upvote(@Param('id') id: string): Promise<Quote> {
     return this.quotesService.upvote(id);
   }
 
   @Patch(':id/downvote')
   @HttpCode(HttpStatus.OK)
-  async downvote(
-    @Param('id') id: string,
-    @Body() createQuoteDto: CreateUpdateQuoteDto,
-  ): Promise<Quote> {
+  async downvote(@Param('id') id: string): Promise<Quote> {
     return this.quotesService.downvote(id);
   }
 

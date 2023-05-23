@@ -49,6 +49,8 @@ export class QuotesService extends AbstractService {
   async upvote(quoteId: string): Promise<Quote> {
     const quote = (await this.findById(quoteId)) as Quote;
     try {
+      console.log();
+
       quote.votes++;
 
       return this.quotesRepository.save(quote);

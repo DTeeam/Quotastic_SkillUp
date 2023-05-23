@@ -27,7 +27,6 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
-  @UseGuards(LocalAuthGuard)
   @Public()
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() body: RegisterUserDto): Promise<User> {
