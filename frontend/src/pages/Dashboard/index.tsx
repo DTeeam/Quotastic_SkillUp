@@ -1,13 +1,13 @@
 import DashboardLayout from 'components/ui/DashboardLayout';
-import Layout from 'components/ui/Layout';
+import LoginForm from 'components/user/LoginForm';
 import { FC } from 'react';
 
-const Home: FC = () => {
+const Dashboard: FC = () => {
   return (
     <DashboardLayout>
-      <h1>HOME</h1>
+      <h1>LOGIN</h1>
+      <LoginForm />
     </DashboardLayout>
   );
 };
-
-export default Home;
+export default Dashboard;

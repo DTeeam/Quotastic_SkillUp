@@ -19,20 +19,13 @@ const Home = lazy(() => import('pages/Home'));
 
 /* Private routes */
 const Dashboard = lazy(() => import('pages/Dashboard'));
-const DashboardUsers = lazy(() => import('pages/Dashboard/Users'));
-const DashboardUsersAdd = lazy(() => import('pages/Dashboard/Users/Add'));
-const DashboardUsersEdit = lazy(() => import('pages/Dashboard/Users/Edit'));
-
-const DashboardProducts = lazy(() => import('pages/Dashboard/Products'));
-const DashboardProductsAdd = lazy(() => import('pages/Dashboard/Products/Add'));
-const DashboardProductsEdit = lazy(
-  () => import('pages/Dashboard/Products/Edit')
-);
-const DashboardOrders = lazy(() => import('pages/Dashboard/Orders'));
+//const DashboardUsers = lazy(() => import('pages/Dashboard/Users'));
+//const DashboardUsersAdd = lazy(() => import('pages/Dashboard/Users/Add'));
+//const DashboardUsersEdit = lazy(() => import('pages/Dashboard/Users/Edit'));
 
 /* Restricted routes */
 const Login = lazy(() => import('pages/Login'));
-const Register = lazy(() => import('pages/Register'));
+//const Register = lazy(() => import('pages/Register'));
 
 /* Error routes */
 const Page404 = lazy(() => import('pages/Page404'));
@@ -44,18 +37,18 @@ export const AppRoutes: AppRoute[] = [
     path: '/login',
     children: <Login />,
   },
-  {
+  /*{
     type: RouteType.RESTRICTED,
     path: '/signup',
     children: <Register />,
-  },
+  },*/
   // Private Routes
   {
     type: RouteType.PRIVATE,
     path: '/dashboard',
     children: <Dashboard />,
   },
-  {
+  /*{
     type: RouteType.PRIVATE,
     path: '/dashboard/users',
     children: <DashboardUsers />,
@@ -69,28 +62,7 @@ export const AppRoutes: AppRoute[] = [
     type: RouteType.PRIVATE,
     path: '/dashboard/users/edit',
     children: <DashboardUsersEdit />,
-  },
-
-  {
-    type: RouteType.PRIVATE,
-    path: '/dashboard/products',
-    children: <DashboardProducts />,
-  },
-  {
-    type: RouteType.PRIVATE,
-    path: '/dashboard/products/add',
-    children: <DashboardProductsAdd />,
-  },
-  {
-    type: RouteType.PRIVATE,
-    path: '/dashboard/products/edit',
-    children: <DashboardProductsEdit />,
-  },
-  {
-    type: RouteType.PRIVATE,
-    path: '/dashboard/orders',
-    children: <DashboardOrders />,
-  },
+  },*/
   // Public Routes
   {
     type: RouteType.PUBLIC,
