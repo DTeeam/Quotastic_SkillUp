@@ -7,10 +7,12 @@ import { AuthService } from 'modules/auth/auth.service';
 import { User } from 'entities/user.entity';
 import { UsersService } from 'modules/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { Vote } from 'entities/vote.entity';
+import { Repository } from 'typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Quote, User])],
-  providers: [QuotesService, AuthService, UsersService, JwtService],
+  imports: [TypeOrmModule.forFeature([Quote, User, Vote])],
+  providers: [QuotesService, AuthService, UsersService, JwtService, Repository],
   controllers: [QuotesController],
 })
 export class QuotesModule {}

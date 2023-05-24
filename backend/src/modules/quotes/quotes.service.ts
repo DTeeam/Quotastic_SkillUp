@@ -7,12 +7,15 @@ import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { AuthService } from 'modules/auth/auth.service';
 import { User } from 'entities/user.entity';
+import { Vote } from 'entities/vote.entity';
 
 @Injectable()
 export class QuotesService extends AbstractService {
   constructor(
     @InjectRepository(Quote)
     private readonly quotesRepository: Repository<Quote>,
+    @InjectRepository(Vote)
+    private readonly votesRepository: Repository<Vote>,
     @Inject(AuthService) private authService: AuthService,
   ) {
     super(quotesRepository);
@@ -48,11 +51,18 @@ export class QuotesService extends AbstractService {
 
   async upvote(quoteId: string): Promise<Quote> {
     const quote = (await this.findById(quoteId)) as Quote;
+    const data = await this.votesRepository.find({
+      relations: ['quote'],
+      where: {
+        quote: {
+          id: quoteId,
+        },
+      },
+    });
+    console.log(data);
+
     try {
-      console.log();
-
       quote.votes++;
-
       return this.quotesRepository.save(quote);
     } catch (error) {
       Logging.error(error);
