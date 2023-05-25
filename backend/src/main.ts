@@ -1,8 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import Logging from 'library/Logging';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import Logging from './library/Logging';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -32,9 +34,13 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document);
   };
 
+  app.useGlobalPipes(new ValidationPipe());
+  app.use(cookieParser());
+  app.use('/files', express.static('files'));
+
   initSwagger(app);
 
-  const PORT = process.env.PORT || 8000;
+  const PORT = process.env.PORT || 8080;
   await app.listen(PORT);
   Logging.info(`I am listening on: ${await app.getUrl()}`);
 }
