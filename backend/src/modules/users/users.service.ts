@@ -10,7 +10,7 @@ import Logging from 'library/Logging';
 import { AbstractService } from 'modules/common/abstract.service';
 import { Repository } from 'typeorm';
 import { compareHash, hash } from 'utils/bcrypt';
-import { CreateUserDto } from './dto/create-user-dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user-dto';
 
 @Injectable()

@@ -28,15 +28,14 @@ import {
 } from 'helpers/imageStorage';
 import { join } from 'path';
 import { UpdateUserDto } from './dto/update-user-dto';
-import { CreateUserDto } from './dto/create-user-dto';
 
 @ApiTags('users')
-@Controller('users')
+@Controller('me')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get(':id')
+  /*@Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findById(id);
@@ -46,7 +45,7 @@ export class UsersController {
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.usersService.create(createUserDto);
-  }
+  }*/
   @Post('upload/:id')
   @UseInterceptors(FileInterceptor('avatar', saveImageToStorage))
   @HttpCode(HttpStatus.CREATED)
@@ -78,9 +77,9 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto);
   }
 
-  @Delete(':id')
+  /*  @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id') id: string): Promise<User> {
     return this.usersService.remove(id);
-  }
+  }*/
 }

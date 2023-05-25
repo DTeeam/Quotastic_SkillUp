@@ -75,14 +75,10 @@ export class AbstractService {
         take,
         skip: (page - 1) * take,
         relations,
+        order: { votes: 'DESC' },
       });
       return {
         data: data,
-        meta: {
-          total,
-          page,
-          last_page: Math.ceil(total / take),
-        },
       };
     } catch (error) {
       Logging.error(error);

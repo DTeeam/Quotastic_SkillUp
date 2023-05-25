@@ -20,6 +20,7 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('Invalid credentials');
     }
+
     if (!(await compareHash(password, user.password))) {
       throw new BadRequestException('Invalid credentials');
     }
