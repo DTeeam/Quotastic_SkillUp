@@ -15,10 +15,11 @@ type AppRoute = RouteProps & {
 };
 
 /* Public routes */
-const Home = lazy(() => import('pages/Home'));
+const Landing = lazy(() => import('pages/Landing'));
 
 /* Private routes */
-const Dashboard = lazy(() => import('pages/Dashboard'));
+const Home = lazy(() => import('pages/Home'));
+
 //const DashboardUsers = lazy(() => import('pages/Dashboard/Users'));
 //const DashboardUsersAdd = lazy(() => import('pages/Dashboard/Users/Add'));
 //const DashboardUsersEdit = lazy(() => import('pages/Dashboard/Users/Edit'));
@@ -45,29 +46,15 @@ export const AppRoutes: AppRoute[] = [
   // Private Routes
   {
     type: RouteType.PRIVATE,
-    path: '/dashboard',
-    children: <Dashboard />,
+    path: '/',
+    children: <Home />,
   },
-  /*{
-    type: RouteType.PRIVATE,
-    path: '/dashboard/users',
-    children: <DashboardUsers />,
-  },
-  {
-    type: RouteType.PRIVATE,
-    path: '/dashboard/users/add',
-    children: <DashboardUsersAdd />,
-  },
-  {
-    type: RouteType.PRIVATE,
-    path: '/dashboard/users/edit',
-    children: <DashboardUsersEdit />,
-  },*/
+
   // Public Routes
   {
     type: RouteType.PUBLIC,
-    path: '/',
-    children: <Home />,
+    path: '/landing',
+    children: <Landing />,
   },
   // 404 Error
   {
