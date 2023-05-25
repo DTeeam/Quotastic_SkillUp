@@ -51,9 +51,7 @@ const Navbar: FC = () => {
                     <li className="nav-item pe-4">Settings</li>
                     <li className="nav-item pe-4">
                       <Button className="btn btn-dark" onClick={signout}>
-                        <Link onClick={signout} to={routes.LANDING}>
-                          Logout
-                        </Link>
+                        Logout
                       </Button>
                     </li>
                     <Avatar
@@ -72,7 +70,7 @@ const Navbar: FC = () => {
                     {location.pathname === routes.LOGIN ? (
                       <li className="nav-item pe-4">
                         <NavLink className="nav-link" to={routes.SIGNUP}>
-                          <Button>Signup</Button>
+                          <Button>Sign up</Button>
                         </NavLink>
                       </li>
                     ) : location.pathname === routes.SIGNUP ? (
@@ -85,7 +83,7 @@ const Navbar: FC = () => {
                       <>
                         <li className="nav-item">
                           <NavLink className="nav-link pe-0" to={routes.SIGNUP}>
-                            <Button>Signup</Button>
+                            <Button>Sign up</Button>
                           </NavLink>
                         </li>
                         <li className="nav-item pe-4">
