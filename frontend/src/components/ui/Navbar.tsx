@@ -4,7 +4,6 @@ import Toast from 'react-bootstrap/Toast';
 import { routes } from 'constants/routesConstants';
 import { FC, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import authStore from 'stores/auth.store';
 import { StatusCode } from 'constants/errorConstants';
 import * as API from 'api/Api';

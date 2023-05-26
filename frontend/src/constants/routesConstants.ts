@@ -3,5 +3,4 @@ export enum routes {
   SIGNUP = '/signup',
   LANDING = '/landing',
   HOME = '/',
-  DASHBOARD_PREFIX = '/dashboard',
 }
