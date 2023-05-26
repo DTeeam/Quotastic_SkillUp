@@ -250,15 +250,15 @@ const RegisterForm: FC = () => {
             </Form.Group>
           )}
         />
+        <Button className="w-100" type="submit" onMouseUp={handleFileError}>
+          Sign up
+        </Button>
         <div className="d-flex justify-content-between align-items-center mb-2">
           <p className="mb-0">Already have an account?</p>
           <Link className="text-decoration-none text-end" to={routes.LOGIN}>
-            Login
+            Sign in
           </Link>
         </div>
-        <Button className="w-100" type="submit" onMouseUp={handleFileError}>
-          Create account
-        </Button>
       </Form>
       {showError && (
         <ToastContainer className="p-3" position="top-end">
