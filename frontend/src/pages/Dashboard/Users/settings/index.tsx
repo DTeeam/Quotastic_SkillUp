@@ -1,5 +1,4 @@
 import DashboardLayout from 'components/ui/DashboardLayout';
-import LoginForm from 'components/user/LoginForm';
 import { FC } from 'react';
 
 const DashboardUserSettings: FC = () => {

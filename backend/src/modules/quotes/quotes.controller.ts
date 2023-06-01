@@ -9,16 +9,12 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
 import { PaginatedResult } from 'interfaces/paginated-result.interface';
 import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
-import { LocalAuthGuard } from 'modules/auth/guard/local-auth.guard';
-import { JwtAuthGuard } from 'modules/auth/guard/jwt.guard';
 
 @ApiTags('quotes')
 @Controller('quotes')

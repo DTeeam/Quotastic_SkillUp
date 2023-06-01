@@ -8,12 +8,6 @@ import { RegisterUserFields } from 'hooks/react-hook-form/useRegister';
 export const fetchUser = async () =>
   apiRequest<undefined, UserType>('get', apiRoutes.FETCH_USER);
 
-export const fetchUsers = async (pageNumber: number) =>
-  apiRequest<number, UserType>(
-    'get',
-    `${apiRoutes.FETCH_USERS}?page=${pageNumber}`
-  );
-
 export const signout = async () =>
   apiRequest<undefined, void>('post', apiRoutes.SIGNOUT);
 

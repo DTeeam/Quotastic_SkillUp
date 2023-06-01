@@ -23,10 +23,12 @@ export const useCreateUpdateQuoteForm = ({ defaultValues }: Props) => {
   } = useForm({
     defaultValues: {
       quote: '',
+      ...defaultValues,
     },
     mode: 'onSubmit',
     resolver: yupResolver(CreateUpdateQuoteSchema),
   });
+
   return {
     handleSubmit,
     errors,

@@ -43,6 +43,8 @@ export class AbstractService {
         where: { id },
         relations,
       });
+      console.log('DELUJE');
+
       if (!element) {
         throw new BadRequestException(`Cannot find element with id: ${id}`);
       }

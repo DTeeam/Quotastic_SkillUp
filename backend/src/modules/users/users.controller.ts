@@ -10,6 +10,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -28,6 +29,7 @@ import {
 } from 'helpers/imageStorage';
 import { join } from 'path';
 import { UpdateUserDto } from './dto/update-user-dto';
+import { PaginatedResult } from 'interfaces/paginated-result.interface';
 
 @ApiTags('users')
 @Controller('me')

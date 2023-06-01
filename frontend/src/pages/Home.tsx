@@ -1,3 +1,4 @@
+import DisplayQuotesForm from 'components/quote/DisplayQuoteForm';
 import Layout from 'components/ui/Layout';
 import { FC } from 'react';
 import { Navigate } from 'react-router-dom';
@@ -9,7 +10,10 @@ const Home: FC = () => {
   }
   return (
     <Layout>
-      <></>
+      <>
+        HOME
+        <DisplayQuotesForm />
+      </>
     </Layout>
   );
 };

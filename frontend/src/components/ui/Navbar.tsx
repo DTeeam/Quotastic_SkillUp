@@ -8,6 +8,8 @@ import authStore from 'stores/auth.store';
 import { StatusCode } from 'constants/errorConstants';
 import * as API from 'api/Api';
 import Avatar from 'react-avatar';
+import AddQuotePop from 'pages/Dashboard/Quotes/Add';
+import { Link } from 'react-router-dom';
 
 const Navbar: FC = () => {
   const navigate = useNavigate();
@@ -35,6 +37,9 @@ const Navbar: FC = () => {
       <header>
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-xxl p-4 pb-0">
+            <div>
+              <Link to={routes.HOME}> Quotastic"</Link>
+            </div>
             <div
               className="collapse navbar-collapse justify-content-end align-items-center"
               id="navbarTogglerDemo02"
@@ -63,6 +68,7 @@ const Navbar: FC = () => {
                           : authStore.user?.email
                       }
                     />
+                    <AddQuotePop />
                   </>
                 ) : (
                   <>

@@ -25,8 +25,7 @@ export class QuotesService extends AbstractService {
     try {
       const quote = this.quotesRepository.create(createQuoteDto);
       const user: any = this.authService.user;
-
-      console.log(user.id);
+      console.log(user);
 
       return this.quotesRepository.save(quote, user.id);
     } catch (error) {
@@ -59,7 +58,6 @@ export class QuotesService extends AbstractService {
         },
       },
     });
-    console.log(data);
 
     try {
       quote.votes++;
