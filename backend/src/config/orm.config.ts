@@ -17,10 +17,5 @@ export const ORMConfig = async (
   entities: configService.get['dist/**/*.entity{.ts,.js}'],
   autoLoadEntities: true,
   synchronize: true, //ONLY in development,
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
+  ssl: false,
 });

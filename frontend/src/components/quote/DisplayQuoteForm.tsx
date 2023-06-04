@@ -62,7 +62,7 @@ const DisplayQuotesForm: FC = () => {
               ))}
           </div>
 
-          {data.data.data.last_page > 1 && (
+          {data?.data?.data?.last_page > 1 && (
             <div>
               <Button
                 className="me-2"
@@ -73,7 +73,7 @@ const DisplayQuotesForm: FC = () => {
               </Button>
               <Button
                 onClick={() => setPageNumber((prev) => prev + 1)}
-                disabled={pageNumber === data?.data.data.last_page}
+                disabled={pageNumber === data?.data?.data?.last_page}
               >
                 Next page
               </Button>

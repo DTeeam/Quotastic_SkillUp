@@ -43,6 +43,7 @@ export class AuthService {
 
   async user(cookie: string): Promise<User> {
     const data = await this.jwtService.verifyAsync(cookie);
+    console.log('ne');
     return this.usersService.findById(data['id']);
   }
 
@@ -50,6 +51,7 @@ export class AuthService {
     if (!request.user) {
       throw new BadRequestException('User not authenticated');
     }
+    console.log('getUserId');
 
     const user = request.user as User;
     return user.id;

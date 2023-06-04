@@ -6,7 +6,7 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Toast from 'react-bootstrap/Toast';
-import { Form } from 'react-bootstrap';
+import { Form, FormLabel } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
 import { routes } from 'constants/routesConstants';
 import Button from 'react-bootstrap/Button';
@@ -27,19 +27,16 @@ const CreateUpdateQuoteForm: FC<Props> = ({ defaultValues }) => {
   const [apiError, setApiError] = useState('');
   const [showError, setShowError] = useState(false);
 
-  const onSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    const form = e.target;
-    console.log(form);
-    onSubmite();
-  };
-
-  const onSubmite = handleSubmit(async (data: CreateUpdateQuoteFields) => {
+  const onSubmit = handleSubmit(async (data: CreateUpdateQuoteFields) => {
     console.log('REEEEEEE');
 
     if (!defaultValues) await handleAdd(data);
     else await handleUpdate(data);
   });
+
+  const onError = () => {
+    console.log('error');
+  };
 
   const handleAdd = async (data: CreateUpdateQuoteFields) => {
     console.log('ADDED');
@@ -74,15 +71,16 @@ const CreateUpdateQuoteForm: FC<Props> = ({ defaultValues }) => {
 
   return (
     <>
-      <Form id="formToSubmit" onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} onError={onError}>
         <Controller
           control={control}
           name="quote"
           render={({ field }) => (
             <Form.Group className="mb-3">
+              <FormLabel htmlFor="quote">Quote</FormLabel>
               <input
                 {...field}
-                type="text"
+                type="quote"
                 aria-label="Quote"
                 aria-describedby="quote"
                 className={
@@ -99,8 +97,8 @@ const CreateUpdateQuoteForm: FC<Props> = ({ defaultValues }) => {
           )}
         />
 
-        <Button form="formToSubmit" className="w-100" type="submit">
-          {defaultValues ? 'Update quote' : 'Submit'}
+        <Button className="w-100" type="submit">
+          Submit
         </Button>
       </Form>
       {showError && (

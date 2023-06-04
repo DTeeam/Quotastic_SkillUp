@@ -13,7 +13,7 @@ interface Props {
 
 export const useCreateUpdateQuoteForm = ({ defaultValues }: Props) => {
   const CreateUpdateQuoteSchema = Yup.object().shape({
-    Quote: Yup.string().required('Quote is required'),
+    quote: Yup.string().required('Quote is required'),
   });
 
   const {

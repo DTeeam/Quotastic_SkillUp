@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
 import { PaginatedResult } from 'interfaces/paginated-result.interface';
@@ -35,8 +36,12 @@ export class QuotesController {
 
   @Post('myquote')
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createQuoteDto: CreateUpdateQuoteDto): Promise<Quote> {
-    return this.quotesService.create(createQuoteDto);
+  async create(
+    @Req() req,
+    @Body() createQuoteDto: CreateUpdateQuoteDto,
+  ): Promise<Quote> {
+    const cookie = req.cookies['access_token'];
+    return this.quotesService.create(cookie, createQuoteDto);
   }
 
   @Patch('/myquote/:id')
