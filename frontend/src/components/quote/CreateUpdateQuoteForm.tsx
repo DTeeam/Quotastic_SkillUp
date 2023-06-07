@@ -2,7 +2,7 @@ import {
   CreateUpdateQuoteFields,
   useCreateUpdateQuoteForm,
 } from 'hooks/react-hook-form/useCreateUpdateQuote';
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Toast from 'react-bootstrap/Toast';
@@ -28,8 +28,6 @@ const CreateUpdateQuoteForm: FC<Props> = ({ defaultValues }) => {
   const [showError, setShowError] = useState(false);
 
   const onSubmit = handleSubmit(async (data: CreateUpdateQuoteFields) => {
-    console.log('REEEEEEE');
-
     if (!defaultValues) await handleAdd(data);
     else await handleUpdate(data);
   });
@@ -39,8 +37,6 @@ const CreateUpdateQuoteForm: FC<Props> = ({ defaultValues }) => {
   };
 
   const handleAdd = async (data: CreateUpdateQuoteFields) => {
-    console.log('ADDED');
-
     const response = await API.createQuote(data);
     if (response.data?.statusCode === StatusCode.BAD_REQUEST) {
       setApiError(response.data.message);
@@ -49,8 +45,7 @@ const CreateUpdateQuoteForm: FC<Props> = ({ defaultValues }) => {
       setApiError(response.data.message);
       setShowError(true);
     } else {
-      console.log('response');
-
+      window.location.reload();
       navigate(`${routes.HOME}`);
     }
   };

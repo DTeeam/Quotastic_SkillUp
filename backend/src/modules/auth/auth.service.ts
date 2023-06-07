@@ -6,6 +6,8 @@ import { UsersService } from 'modules/users/users.service';
 import { compareHash, hash } from 'utils/bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { Request } from 'express';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Injectable()
 export class AuthService {
@@ -38,22 +40,27 @@ export class AuthService {
   }
 
   async generateJwt(user: User): Promise<string> {
-    return this.jwtService.signAsync({ sub: user.id, name: user.email });
+    return this.jwtService.signAsync(
+      { sub: user.id, name: user.email },
+      { secret: process.env.JWT_SECRET },
+    );
   }
 
-  async user(cookie: string): Promise<User> {
-    const data = await this.jwtService.verifyAsync(cookie);
-    console.log('ne');
+  async user(request: Request): Promise<User> {
+    const data = this.getUserId(request);
     return this.usersService.findById(data['id']);
   }
 
   async getUserId(request: Request): Promise<string> {
-    if (!request.user) {
+    const jwt = request.cookies['access_token'];
+    try {
+      const data = await this.jwtService.verifyAsync(jwt, {
+        secret: process.env.JWT_SECRET,
+      });
+      const userID = data['sub'];
+      return userID;
+    } catch (error) {
       throw new BadRequestException('User not authenticated');
     }
-    console.log('getUserId');
-
-    const user = request.user as User;
-    return user.id;
   }
 }

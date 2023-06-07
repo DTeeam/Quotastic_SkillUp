@@ -7,7 +7,7 @@ import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { AuthService } from 'modules/auth/auth.service';
 import { Vote } from 'entities/vote.entity';
-import cookieParser from 'cookie-parser';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class QuotesService extends AbstractService {
@@ -26,12 +26,13 @@ export class QuotesService extends AbstractService {
     createQuoteDto: CreateUpdateQuoteDto,
   ): Promise<Quote> {
     try {
-      const quote = this.quotesRepository.create(createQuoteDto);
-      const user = this.authService.getUserId(request);
-      //quote.user = user;
-      console.log(user + 'TO JE USER irena');
+      const quote = await this.quotesRepository.create(createQuoteDto);
+      const user = await this.authService.user(request);
+      quote.user = user;
+      console.log(user);
+      //quote.user.id = id;
 
-      return this.quotesRepository.save(quote);
+      return await this.quotesRepository.save(quote);
     } catch (error) {
       Logging.error(error);
       throw new BadRequestException('Could not create a new quote');

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  ExecutionContext,
   Get,
   HttpCode,
   HttpStatus,
@@ -16,11 +17,17 @@ import { PaginatedResult } from 'interfaces/paginated-result.interface';
 import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthService } from 'modules/auth/auth.service';
+import { Request } from 'express';
+import { RequestWithUser } from 'interfaces/auth.interface';
 
 @ApiTags('quotes')
 @Controller('quotes')
 export class QuotesController {
-  constructor(private readonly quotesService: QuotesService) {}
+  constructor(
+    private readonly quotesService: QuotesService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Get()
   @HttpCode(HttpStatus.OK)
@@ -37,11 +44,10 @@ export class QuotesController {
   @Post('myquote')
   @HttpCode(HttpStatus.CREATED)
   async create(
-    @Req() req,
+    @Req() req: RequestWithUser,
     @Body() createQuoteDto: CreateUpdateQuoteDto,
   ): Promise<Quote> {
-    const cookie = req.cookies['access_token'];
-    return this.quotesService.create(cookie, createQuoteDto);
+    return this.quotesService.create(req, createQuoteDto);
   }
 
   @Patch('/myquote/:id')
