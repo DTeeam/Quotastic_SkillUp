@@ -29,3 +29,33 @@
   width: 50px !important;
   height: 50px !important;
 }
+
+.avatar_img {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50%;
+
+}
+
+.orange{
+  color: orange;
+}
+
+.quote-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.quote-item {
+  width: 300px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.quote-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}

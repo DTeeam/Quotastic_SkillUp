@@ -3,6 +3,7 @@ import {
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { User } from 'entities/user.entity';
 import { PaginatedResult } from 'interfaces/paginated-result.interface';
 //import { PaginatedResult } from 'interfaces/paginated-result.interface'
 import Logging from 'library/Logging';
@@ -72,14 +73,22 @@ export class AbstractService {
     const take = 12;
 
     try {
-      const [data, total] = await this.repository.findAndCount({
+      const [data] = await this.repository.findAndCount({
         take,
         skip: (page - 1) * take,
-        relations,
+        relations: ['user', ...relations],
         order: { votes: 'DESC' },
       });
+
+      const quotesWithUser = data.map((quote) => {
+        const { user, ...quoteData } = quote;
+        return {
+          ...quoteData,
+          user: user as User, // Cast user to User entity type
+        };
+      });
       return {
-        data: data,
+        data: quotesWithUser,
       };
     } catch (error) {
       Logging.error(error);

@@ -15,13 +15,14 @@ const DisplayQuotesForm: FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
 
   const { data, isLoading, refetch } = useQuery(
-    ['fetchProducts', pageNumber],
+    ['fetchQuotes', pageNumber],
     () => API.fetchQuotes(pageNumber),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
     }
   );
+  console.log(data);
 
   const { mutate } = useMutation((id: string) => API.deleteQuote(id), {
     onSuccess: (response) => {
@@ -50,19 +51,27 @@ const DisplayQuotesForm: FC = () => {
       ) : (
         <>
           <div className="quote-container">
-            {data?.data?.data &&
-              data.data.data.map((item: QuoteType, index: number) => (
-                <div key={index} className="quote-item">
-                  {/* <img
-                      src={`${process.env.REACT_APP_API_URL}/files/${item.user.avatar}`}
-                    />*/}
-                  <h3>{item.quote}</h3>
-                  <p>{item.votes}</p>
-                </div>
-              ))}
+            {data?.data?.data?.map((quote: QuoteType, index: number) => (
+              <div key={index} className="quote-item">
+                <h3>{quote.quote}</h3>
+                <p>{quote.votes}</p>
+                {quote.user && (
+                  <p>
+                    {
+                      <img
+                        className="avatar_img"
+                        src={`${process.env.REACT_APP_API_URL}/files/${quote.user.avatar}`}
+                      />
+                    }
+                    {quote.user.first_name} {'  '}
+                    {quote.user.last_name}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
 
-          {data?.data?.data?.last_page > 1 && (
+          {data.last_page > 1 && (
             <div>
               <Button
                 className="me-2"

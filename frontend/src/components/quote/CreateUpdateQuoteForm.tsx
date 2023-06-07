@@ -50,8 +50,6 @@ const CreateUpdateQuoteForm: FC<Props> = ({ defaultValues }) => {
     }
   };
   const handleUpdate = async (data: CreateUpdateQuoteFields) => {
-    console.log('UPDEJT');
-
     const response = await API.updateQuote(data, defaultValues?.id as string);
     if (response.data?.statusCode === StatusCode.BAD_REQUEST) {
       setApiError(response.data.message);
