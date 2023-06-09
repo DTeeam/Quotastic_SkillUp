@@ -4,6 +4,15 @@ import { QuoteType } from 'models/quote';
 
 import { apiRequest } from './Api';
 
+export const fetchQuote = async (id: string) =>
+  apiRequest<undefined, QuoteType[]>('get', `${apiRoutes.QUOTES_PREFIX}/${id}`);
+
+export const fetchRandQuote = async () =>
+  apiRequest<undefined, QuoteType[]>(
+    'get',
+    `${apiRoutes.QUOTES_PREFIX}/t/rand`
+  );
+
 export const fetchQuotes = async (pageNumber: number) =>
   apiRequest<undefined, QuoteType[]>(
     'get',

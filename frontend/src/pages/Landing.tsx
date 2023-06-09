@@ -1,4 +1,4 @@
-import DisplayQuotesForm from 'components/quote/DisplayQuoteForm';
+import DisplayUpvotedQuotesForm from 'components/quote/DisplayUpvotedQuoteForm';
 import Layout from 'components/ui/Layout';
 import { routes } from 'constants/routesConstants';
 import { FC } from 'react';
@@ -36,7 +36,7 @@ const Landing: FC = () => {
           Most upvoted quotes on the platform. Sign up or login to like the
           quotes and keep them saved in your profile
         </p>
-        <DisplayQuotesForm />
+        <DisplayUpvotedQuotesForm />
       </div>
 
       <Link to={routes.SIGNUP}>

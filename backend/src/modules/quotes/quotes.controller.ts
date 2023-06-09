@@ -17,22 +17,22 @@ import { PaginatedResult } from 'interfaces/paginated-result.interface';
 import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthService } from 'modules/auth/auth.service';
-import { Request } from 'express';
 import { RequestWithUser } from 'interfaces/auth.interface';
 
 @ApiTags('quotes')
 @Controller('quotes')
 export class QuotesController {
-  constructor(
-    private readonly quotesService: QuotesService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly quotesService: QuotesService) {}
 
   @Get()
   @HttpCode(HttpStatus.OK)
   async paginated(@Query('page') page: number): Promise<PaginatedResult> {
     return this.quotesService.paginate(page);
+  }
+  @Get('t/rand')
+  @HttpCode(HttpStatus.OK)
+  async findRand(): Promise<Quote> {
+    return this.quotesService.findRand();
   }
 
   @Get(':id')

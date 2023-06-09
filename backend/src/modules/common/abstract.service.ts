@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { User } from 'entities/user.entity';
 import { PaginatedResult } from 'interfaces/paginated-result.interface';
-//import { PaginatedResult } from 'interfaces/paginated-result.interface'
 import Logging from 'library/Logging';
 import { Repository } from 'typeorm/repository/Repository';
 
@@ -53,6 +52,24 @@ export class AbstractService {
       Logging.error(error);
       throw new InternalServerErrorException(
         'Element search with id failed :O',
+      );
+    }
+  }
+  async findRand(relations = []): Promise<any> {
+    try {
+      const [quote, totalCount] = await this.repository.query(
+        `SELECT q.*, u.* FROM "quote" q INNER JOIN "user" u ON q.user_id = u.id ORDER BY RANDOM() LIMIT 1`,
+      );
+
+      if (totalCount === 0) {
+        throw new BadRequestException('No quotes found');
+      }
+
+      return quote;
+    } catch (error) {
+      Logging.error(error);
+      throw new InternalServerErrorException(
+        'Failed to retrieve a random quote',
       );
     }
   }

@@ -9,7 +9,7 @@ import * as API from 'api/Api';
 import { StatusCode } from 'constants/errorConstants';
 import { QuoteType } from 'models/quote';
 
-const DisplayQuotesForm: FC = () => {
+const DisplayRecentQuotesForm: FC = () => {
   const [apiError, setApiError] = useState('');
   const [showError, setShowError] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
@@ -22,7 +22,6 @@ const DisplayQuotesForm: FC = () => {
       refetchOnWindowFocus: false,
     }
   );
-  console.log(data);
 
   const { mutate } = useMutation((id: string) => API.deleteQuote(id), {
     onSuccess: (response) => {
@@ -53,8 +52,9 @@ const DisplayQuotesForm: FC = () => {
           <div className="quote-container">
             {data?.data?.data?.map((quote: QuoteType, index: number) => (
               <div key={index} className="quote-item">
-                <h3>{quote.quote}</h3>
-                <p>{quote.votes}</p>
+                <h3 className="quote-h3">
+                  {quote.votes} {quote.quote}
+                </h3>
                 {quote.user && (
                   <p>
                     {
@@ -104,4 +104,4 @@ const DisplayQuotesForm: FC = () => {
   );
 };
 
-export default DisplayQuotesForm;
+export default DisplayRecentQuotesForm;
