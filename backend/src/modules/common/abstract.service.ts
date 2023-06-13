@@ -119,40 +119,4 @@ export class AbstractService {
       );
     }
   }
-
-  async paginateWithoutAuth(
-    page = 1,
-    relations = [],
-  ): Promise<PaginatedResult> {
-    const take = 12;
-
-    try {
-      const [data, total] = await this.repository.findAndCount({
-        take,
-        skip: (page - 1) * take,
-        relations: ['user', ...relations],
-        order: { votes: 'DESC' },
-      });
-
-      const quotesWithUser = data.map((quote) => {
-        const { user, ...quoteData } = quote;
-        return {
-          ...quoteData,
-          user: user as User, // Cast user to User entity type
-        };
-      });
-
-      return {
-        data: quotesWithUser,
-        meta: {
-          total,
-          page,
-          last_page: Math.ceil(total / take),
-        },
-      };
-    } catch (error) {
-      Logging.error(error);
-      throw new BadRequestException('Paginated search result unsuccessful');
-    }
-  }
 }

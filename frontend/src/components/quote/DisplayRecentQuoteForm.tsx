@@ -14,7 +14,7 @@ const DisplayRecentQuotesForm: FC = () => {
   const [showError, setShowError] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const { data, isLoading, refetch } = useQuery(
+  const { data, isLoading } = useQuery(
     ['fetchQuotes', pageNumber],
     () => API.fetchQuotes(pageNumber),
     {

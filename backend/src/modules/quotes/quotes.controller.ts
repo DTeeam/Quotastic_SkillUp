@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Delete,
-  ExecutionContext,
   Get,
   HttpCode,
   HttpStatus,
@@ -11,6 +10,7 @@ import {
   Post,
   Query,
   Req,
+  SetMetadata,
 } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
 import { PaginatedResult } from 'interfaces/paginated-result.interface';
@@ -24,21 +24,11 @@ import { RequestWithUser } from 'interfaces/auth.interface';
 export class QuotesController {
   constructor(private readonly quotesService: QuotesService) {}
 
-  /*@Get()
-  @HttpCode(HttpStatus.OK)
-  async paginated(@Query('page') page: number): Promise<PaginatedResult> {
-    return this.quotesService.paginate(page);
-  }*/
-
   @Get()
   @HttpCode(HttpStatus.OK)
+  @SetMetadata('isPublic', true)
   async paginated(@Query('page') page: number): Promise<PaginatedResult> {
-    if (page) {
-      return this.quotesService.paginateWithoutAuth(page);
-    } else {
-      // If the page query parameter is not provided, return all quotes with authentication
-      return this.quotesService.paginate();
-    }
+    return this.quotesService.paginate(page);
   }
 
   @Get('rand')

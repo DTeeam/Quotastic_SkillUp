@@ -7,7 +7,7 @@ import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { AuthService } from 'modules/auth/auth.service';
 import { Vote } from 'entities/vote.entity';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 @Injectable()
 export class QuotesService extends AbstractService {
