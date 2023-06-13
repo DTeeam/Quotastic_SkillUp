@@ -23,26 +23,6 @@ const DisplayRecentQuotesForm: FC = () => {
     }
   );
 
-  const { mutate } = useMutation((id: string) => API.deleteQuote(id), {
-    onSuccess: (response) => {
-      if (response.data?.statusCode === StatusCode.BAD_REQUEST) {
-        setApiError(response.data.message);
-        setShowError(true);
-      } else if (
-        response.data?.statusCode === StatusCode.INTERNAL_SERVER_ERROR
-      ) {
-        setApiError(response.data.message);
-        setShowError(true);
-      } else {
-        refetch();
-      }
-    },
-    onError: () => {
-      setApiError('Something went wrong while deleting a quote');
-      setShowError(true);
-    },
-  });
-
   return (
     <DashboardLayout>
       {isLoading ? (

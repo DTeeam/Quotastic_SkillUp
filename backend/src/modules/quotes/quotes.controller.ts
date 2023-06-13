@@ -24,12 +24,24 @@ import { RequestWithUser } from 'interfaces/auth.interface';
 export class QuotesController {
   constructor(private readonly quotesService: QuotesService) {}
 
-  @Get()
+  /*@Get()
   @HttpCode(HttpStatus.OK)
   async paginated(@Query('page') page: number): Promise<PaginatedResult> {
     return this.quotesService.paginate(page);
+  }*/
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async paginated(@Query('page') page: number): Promise<PaginatedResult> {
+    if (page) {
+      return this.quotesService.paginateWithoutAuth(page);
+    } else {
+      // If the page query parameter is not provided, return all quotes with authentication
+      return this.quotesService.paginate();
+    }
   }
-  @Get('t/rand')
+
+  @Get('rand')
   @HttpCode(HttpStatus.OK)
   async findRand(): Promise<Quote> {
     return this.quotesService.findRand();

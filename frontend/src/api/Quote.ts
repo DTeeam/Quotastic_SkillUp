@@ -8,10 +8,7 @@ export const fetchQuote = async (id: string) =>
   apiRequest<undefined, QuoteType[]>('get', `${apiRoutes.QUOTES_PREFIX}/${id}`);
 
 export const fetchRandQuote = async () =>
-  apiRequest<undefined, QuoteType[]>(
-    'get',
-    `${apiRoutes.QUOTES_PREFIX}/t/rand`
-  );
+  apiRequest<undefined, QuoteType[]>('get', `${apiRoutes.QUOTES_PREFIX}/rand`);
 
 export const fetchQuotes = async (pageNumber: number) =>
   apiRequest<undefined, QuoteType[]>(
