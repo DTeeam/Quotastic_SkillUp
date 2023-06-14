@@ -1,4 +1,5 @@
 import DisplayDailyQuotesForm from 'components/quote/DisplayDailyQuoteForm';
+import DisplayRecentQuotesForm from 'components/quote/DisplayRecentQuoteForm';
 import DisplayUpvotedQuotesForm from 'components/quote/DisplayUpvotedQuoteForm';
 import Layout from 'components/ui/Layout';
 import { FC } from 'react';
@@ -23,6 +24,7 @@ const Home: FC = () => {
           <h4 className="orange">Most recent quotes</h4>
           Recent quotes updates as soon user adds new quote. Go ahed show them
           that you seen the new quote and like the ones you like.
+          <DisplayRecentQuotesForm />
         </div>
       </>
     </Layout>

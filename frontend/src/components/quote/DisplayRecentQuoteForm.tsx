@@ -3,25 +3,31 @@ import { FC, useState } from 'react';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Toast from 'react-bootstrap/Toast';
 import Button from 'react-bootstrap/Button';
-import useMediaQuery from 'hooks/useMediaQuery';
-import { useMutation, useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import * as API from 'api/Api';
-import { StatusCode } from 'constants/errorConstants';
 import { QuoteType } from 'models/quote';
+import authStore from 'stores/auth.store';
 
 const DisplayRecentQuotesForm: FC = () => {
-  const [apiError, setApiError] = useState('');
+  const [apiError] = useState('');
   const [showError, setShowError] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
 
-  const { data, isLoading } = useQuery(
-    ['fetchQuotes', pageNumber],
-    () => API.fetchQuotes(pageNumber),
-    {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery(
+      'fetchQuotes',
+      ({ pageParam = 1 }) => API.fetchQuotes(pageParam),
+      {
+        getNextPageParam: (lastPage) => {
+          const { meta } = lastPage.data;
+          const nextPage = parseInt(meta.page, 10) + 1;
+          return nextPage <= meta.last_page ? nextPage : undefined;
+        },
+
+        keepPreviousData: false,
+        refetchOnWindowFocus: false,
+      }
+    );
+  const quotes = data?.pages.flatMap((page) => page.data.data) ?? [];
 
   return (
     <DashboardLayout>
@@ -30,7 +36,7 @@ const DisplayRecentQuotesForm: FC = () => {
       ) : (
         <>
           <div className="quote-container">
-            {data?.data?.data?.map((quote: QuoteType, index: number) => (
+            {quotes.map((quote: QuoteType, index: number) => (
               <div key={index} className="quote-item">
                 <h3 className="quote-h3">
                   {quote.votes} {quote.quote}
@@ -41,6 +47,7 @@ const DisplayRecentQuotesForm: FC = () => {
                       <img
                         className="avatar_img"
                         src={`${process.env.REACT_APP_API_URL}/files/${quote.user.avatar}`}
+                        alt=""
                       />
                     }
                     {quote.user.first_name} {'  '}
@@ -51,20 +58,13 @@ const DisplayRecentQuotesForm: FC = () => {
             ))}
           </div>
 
-          {data.last_page > 1 && (
+          {authStore.user && (
             <div>
               <Button
-                className="me-2"
-                onClick={() => setPageNumber((prev) => prev - 1)}
-                disabled={pageNumber === 1}
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
               >
-                Prev page
-              </Button>
-              <Button
-                onClick={() => setPageNumber((prev) => prev + 1)}
-                disabled={pageNumber === data?.data?.data?.last_page}
-              >
-                Next page
+                {isFetchingNextPage ? 'Loading...' : 'LOAD MORE'}
               </Button>
             </div>
           )}
