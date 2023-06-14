@@ -17,6 +17,7 @@ export async function apiRequest<D = Record<string, unknown>, R = unknown>(
       headers: options?.headers,
       withCredentials: true,
     });
+
     return response;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -25,3 +26,4 @@ export async function apiRequest<D = Record<string, unknown>, R = unknown>(
 }
 
 export * from './User';
+export * from './Quote';

@@ -9,16 +9,15 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
+  Req,
+  SetMetadata,
 } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
 import { PaginatedResult } from 'interfaces/paginated-result.interface';
 import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
-import { LocalAuthGuard } from 'modules/auth/guard/local-auth.guard';
-import { JwtAuthGuard } from 'modules/auth/guard/jwt.guard';
+import { RequestWithUser } from 'interfaces/auth.interface';
 
 @ApiTags('quotes')
 @Controller('quotes')
@@ -27,8 +26,15 @@ export class QuotesController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @SetMetadata('isPublic', true)
   async paginated(@Query('page') page: number): Promise<PaginatedResult> {
     return this.quotesService.paginate(page);
+  }
+
+  @Get('rand')
+  @HttpCode(HttpStatus.OK)
+  async findRand(): Promise<Quote> {
+    return this.quotesService.findRand();
   }
 
   @Get(':id')
@@ -39,8 +45,11 @@ export class QuotesController {
 
   @Post('myquote')
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createQuoteDto: CreateUpdateQuoteDto): Promise<Quote> {
-    return this.quotesService.create(createQuoteDto);
+  async create(
+    @Req() req: RequestWithUser,
+    @Body() createQuoteDto: CreateUpdateQuoteDto,
+  ): Promise<Quote> {
+    return this.quotesService.create(req, createQuoteDto);
   }
 
   @Patch('/myquote/:id')

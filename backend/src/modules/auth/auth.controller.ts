@@ -42,6 +42,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<User> {
     const access_token = await this.authService.generateJwt(req.user);
+
     res.cookie('access_token', access_token, { httpOnly: true });
     return req.user;
   }

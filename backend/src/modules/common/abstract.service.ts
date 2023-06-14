@@ -3,8 +3,8 @@ import {
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { User } from 'entities/user.entity';
 import { PaginatedResult } from 'interfaces/paginated-result.interface';
-//import { PaginatedResult } from 'interfaces/paginated-result.interface'
 import Logging from 'library/Logging';
 import { Repository } from 'typeorm/repository/Repository';
 
@@ -43,6 +43,7 @@ export class AbstractService {
         where: { id },
         relations,
       });
+
       if (!element) {
         throw new BadRequestException(`Cannot find element with id: ${id}`);
       }
@@ -51,6 +52,24 @@ export class AbstractService {
       Logging.error(error);
       throw new InternalServerErrorException(
         'Element search with id failed :O',
+      );
+    }
+  }
+  async findRand(relations = []): Promise<any> {
+    try {
+      const [quote, totalCount] = await this.repository.query(
+        `SELECT q.*, u.* FROM "quote" q INNER JOIN "user" u ON q.user_id = u.id ORDER BY RANDOM() LIMIT 1`,
+      );
+
+      if (totalCount === 0) {
+        throw new BadRequestException('No quotes found');
+      }
+
+      return quote;
+    } catch (error) {
+      Logging.error(error);
+      throw new InternalServerErrorException(
+        'Failed to retrieve a random quote',
       );
     }
   }
@@ -74,11 +93,24 @@ export class AbstractService {
       const [data, total] = await this.repository.findAndCount({
         take,
         skip: (page - 1) * take,
-        relations,
+        relations: ['user', ...relations],
         order: { votes: 'DESC' },
       });
+
+      const quotesWithUser = data.map((quote) => {
+        const { user, ...quoteData } = quote;
+        return {
+          ...quoteData,
+          user: user as User, // Cast user to User entity type
+        };
+      });
       return {
-        data: data,
+        data: quotesWithUser,
+        meta: {
+          total,
+          page,
+          last_page: Math.ceil(total / take),
+        },
       };
     } catch (error) {
       Logging.error(error);

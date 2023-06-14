@@ -1,3 +1,4 @@
+import DisplayUpvotedQuotesForm from 'components/quote/DisplayUpvotedQuoteForm';
 import Layout from 'components/ui/Layout';
 import { routes } from 'constants/routesConstants';
 import { FC } from 'react';
@@ -13,7 +14,7 @@ const Landing: FC = () => {
     <Layout>
       <div>
         <h1>
-          Welcome to <p className="orange"> Quotastic</p>
+          Welcome to <span className="orange"> Quotastic</span>
         </h1>
         <h5>
           Quotastic is free online platform for you to explore the quips,
@@ -26,7 +27,7 @@ const Landing: FC = () => {
       <div>
         <h2>
           Explore the world of
-          <p className="orange">fantastic quotes</p>
+          <span className="orange"> fantastic quotes</span>
         </h2>
       </div>
       <div>
@@ -35,6 +36,7 @@ const Landing: FC = () => {
           Most upvoted quotes on the platform. Sign up or login to like the
           quotes and keep them saved in your profile
         </p>
+        <DisplayUpvotedQuotesForm />
       </div>
 
       <Link to={routes.SIGNUP}>

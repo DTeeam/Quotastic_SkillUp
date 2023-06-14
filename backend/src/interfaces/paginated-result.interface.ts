@@ -5,4 +5,9 @@ export interface PaginatedResult {
     sort_by: 'votes';
     sort_order: 'desc';
   }[];
+  meta: {
+    total: number;
+    page: number;
+    last_page: number;
+  };
 }

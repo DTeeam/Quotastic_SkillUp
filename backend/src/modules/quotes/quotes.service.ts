@@ -6,8 +6,8 @@ import Logging from 'library/Logging';
 import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { AuthService } from 'modules/auth/auth.service';
-import { User } from 'entities/user.entity';
 import { Vote } from 'entities/vote.entity';
+import { Request } from 'express';
 
 @Injectable()
 export class QuotesService extends AbstractService {
@@ -21,14 +21,16 @@ export class QuotesService extends AbstractService {
     super(quotesRepository);
   }
 
-  async create(createQuoteDto: CreateUpdateQuoteDto): Promise<Quote> {
+  async create(
+    request: Request,
+    createQuoteDto: CreateUpdateQuoteDto,
+  ): Promise<Quote> {
     try {
-      const quote = this.quotesRepository.create(createQuoteDto);
-      const user: any = this.authService.user;
+      const quote = await this.quotesRepository.create(createQuoteDto);
+      const user = await this.authService.user(request);
+      quote.user = user;
 
-      console.log(user.id);
-
-      return this.quotesRepository.save(quote, user.id);
+      return await this.quotesRepository.save(quote);
     } catch (error) {
       Logging.error(error);
       throw new BadRequestException('Could not create a new quote');
@@ -59,7 +61,6 @@ export class QuotesService extends AbstractService {
         },
       },
     });
-    console.log(data);
 
     try {
       quote.votes++;
