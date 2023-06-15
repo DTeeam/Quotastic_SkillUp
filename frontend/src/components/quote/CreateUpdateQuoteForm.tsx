@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 import * as API from 'api/Api';
 import { StatusCode } from 'constants/errorConstants';
 import { QuoteType } from 'models/quote';
+import { observer } from 'mobx-react';
 
 interface Props {
   defaultValues?: QuoteType;
@@ -108,4 +109,4 @@ const CreateUpdateQuoteForm: FC<Props> = ({ defaultValues }) => {
   );
 };
 
-export default CreateUpdateQuoteForm;
+export default observer(CreateUpdateQuoteForm);

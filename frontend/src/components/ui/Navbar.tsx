@@ -10,6 +10,7 @@ import * as API from 'api/Api';
 import Avatar from 'react-avatar';
 import AddQuotePop from 'pages/Dashboard/Quotes/Add';
 import { Link } from 'react-router-dom';
+import UserSettingsPop from 'pages/Dashboard/Users/settings';
 
 const Navbar: FC = () => {
   const navigate = useNavigate();
@@ -52,7 +53,9 @@ const Navbar: FC = () => {
                         Home
                       </NavLink>
                     </li>
-                    <li className="nav-item pe-4">Settings</li>
+                    <li className="nav-item pe-4">
+                      <UserSettingsPop />
+                    </li>
                     <li className="nav-item pe-4">
                       <Button className="btn btn-dark" onClick={signout}>
                         Logout

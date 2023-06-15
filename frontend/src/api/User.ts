@@ -2,7 +2,10 @@ import { apiRoutes } from 'constants/apiConstants';
 import { apiRequest } from './Api';
 import { LoginUserFields } from 'hooks/react-hook-form/useLogin';
 import { UserType } from 'models/auth';
-import { CreateUserFields } from 'hooks/react-hook-form/useCreateUpdateUser';
+import {
+  CreateUserFields,
+  UpdateUserFields,
+} from 'hooks/react-hook-form/useCreateUpdateUser';
 import { RegisterUserFields } from 'hooks/react-hook-form/useRegister';
 
 export const fetchUser = async () =>
@@ -30,12 +33,12 @@ export const refreshTokens = async () =>
 export const createUser = async (data: CreateUserFields) =>
   apiRequest<CreateUserFields, void>('post', apiRoutes.USERS_PREFIX, data);
 
-/*export const updateUser = async (data: UpdateUserFields, id: string) =>
+export const updateUser = async (data: UpdateUserFields, id: string) =>
   apiRequest<UpdateUserFields, void>(
     'patch',
     `${apiRoutes.USERS_PREFIX}/${id}`,
-    data,
-  )
-*/
+    data
+  );
+
 export const deleteUser = async (id: string) =>
   apiRequest<string, UserType>('delete', `${apiRoutes.USERS_PREFIX}/${id}`);

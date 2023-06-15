@@ -24,6 +24,10 @@ class AuthStore {
     userStorage.clearUser();
     this.user = undefined;
   }
+
+  updateUser(user: UserType | null) {
+    this.user = user;
+  }
 }
 
 const authStore = new AuthStore();
