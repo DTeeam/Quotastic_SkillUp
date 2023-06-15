@@ -17,11 +17,10 @@ import authStore from 'stores/auth.store';
 
 interface Props {
   defaultValues?: UserType;
+  onSubmitSuccess: () => void;
 }
 
-const UpdateUserBasicForm: FC<Props> = ({ defaultValues }) => {
-  console.log(defaultValues?.first_name);
-
+const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
   const { handleSubmit, errors, control } = useCreateUpdateUserForm({
     defaultValues: authStore.user || undefined,
   });
@@ -31,8 +30,6 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues }) => {
   const [showError, setShowError] = useState(false);
 
   const onSubmit = handleSubmit(async (data: UpdateUserFields) => {
-    console.log(defaultValues?.id);
-
     await handleUpdate(data);
   });
 
@@ -50,6 +47,7 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues }) => {
       setApiError(response.data.message);
       setShowError(true);
     } else {
+      onSubmitSuccess();
       navigate(`${routes.HOME}`);
     }
   };

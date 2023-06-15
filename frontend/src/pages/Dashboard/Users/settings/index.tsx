@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 
 const UserSettingsPop = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showNewModal, setShowNewModal] = useState(false);
 
   const openModal = () => {
     setShowModal(true);
@@ -11,6 +12,37 @@ const UserSettingsPop = () => {
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const onSubmitSuccess = () => {
+    setShowModal(false);
+    setShowNewModal(true);
+  };
+
+  const NewModalComponent = () => {
+    if (!showNewModal) {
+      return null;
+    }
+
+    const closeNewModal = () => {
+      setShowNewModal(false);
+    };
+
+    return (
+      <Modal show={showNewModal} onHide={() => setShowNewModal(false)}>
+        {
+          <div>
+            <Modal.Body>
+              <h4>
+                Profile <span className="orange">settings</span>
+              </h4>
+              <p>Your settings are saved.</p>
+              <button onClick={closeNewModal}>Close</button>
+            </Modal.Body>
+          </div>
+        }
+      </Modal>
+    );
   };
 
   return (
@@ -22,10 +54,11 @@ const UserSettingsPop = () => {
             Profile <span className="orange">settings</span>
           </h4>
           <p>Change your profile settings</p>
-          <UpdateUserBasicForm />
+          <UpdateUserBasicForm onSubmitSuccess={onSubmitSuccess} />
           <button onClick={closeModal}>Cancel</button>
         </Modal.Body>
       </Modal>
+      <NewModalComponent />
     </div>
   );
 };
