@@ -1,4 +1,4 @@
-import CreateUpdateQuoteForm from 'components/quote/CreateUpdateQuoteForm';
+import UpdateUserBasicForm from 'components/user/settings/UpdateUserBasicForm';
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
@@ -21,12 +21,10 @@ const UserSettingsPop = () => {
           <h4>
             Profile <span className="orange">settings</span>
           </h4>
-          <p>Change profile settings</p>
-          <CreateUpdateQuoteForm />
-        </Modal.Body>
-        <Modal.Footer>
+          <p>Change your profile settings</p>
+          <UpdateUserBasicForm />
           <button onClick={closeModal}>Cancel</button>
-        </Modal.Footer>
+        </Modal.Body>
       </Modal>
     </div>
   );
