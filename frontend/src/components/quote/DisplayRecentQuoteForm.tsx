@@ -14,8 +14,8 @@ const DisplayRecentQuotesForm: FC = () => {
 
   const { data, isLoading, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery(
-      'fetchQuotes',
-      ({ pageParam = 1 }) => API.fetchQuotes(pageParam),
+      'fetchRecentQuotes',
+      ({ pageParam = 1 }) => API.fetchRecentQuotes(pageParam),
       {
         getNextPageParam: (lastPage) => {
           const { meta } = lastPage.data;
