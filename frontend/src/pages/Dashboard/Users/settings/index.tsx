@@ -26,6 +26,7 @@ const UserSettingsPop = () => {
 
     const closeNewModal = () => {
       setShowNewModal(false);
+      window.location.reload();
     };
 
     return (

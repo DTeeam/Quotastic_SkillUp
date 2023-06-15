@@ -2,7 +2,7 @@ import {
   UpdateUserFields,
   useCreateUpdateUserForm,
 } from '../../../hooks/react-hook-form/useCreateUpdateUser';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast';
 import { Controller } from 'react-hook-form';
@@ -21,10 +21,9 @@ interface Props {
 }
 
 const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
-  const { handleSubmit, errors, control } = useCreateUpdateUserForm({
+  const { handleSubmit, errors, control, reset } = useCreateUpdateUserForm({
     defaultValues: authStore.user || undefined,
   });
-  const navigate = useNavigate();
 
   const [apiError, setApiError] = useState('');
   const [showError, setShowError] = useState(false);
@@ -48,7 +47,8 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
       setShowError(true);
     } else {
       onSubmitSuccess();
-      navigate(`${routes.HOME}`);
+      authStore.updateUser(response.data);
+      console.log(authStore.user?.first_name);
     }
   };
 
@@ -87,7 +87,7 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
               <FormLabel htmlFor="first_name">First name</FormLabel>
               <input
                 {...field}
-                type="first_name"
+                type="text"
                 aria-label="First name"
                 aria-describedby="first_name"
                 className={
