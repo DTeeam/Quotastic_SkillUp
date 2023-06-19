@@ -46,13 +46,13 @@ export class AuthService {
     );
   }
 
-  async user(request: Request): Promise<User> {
-    const data = this.getUserId(request);
+  async user(cookie: string): Promise<User> {
+    const data = this.getUserId(cookie);
     return this.usersService.findById(data['id']);
   }
 
-  async getUserId(request: Request): Promise<string> {
-    const jwt = request.cookies['access_token'];
+  async getUserId(jwt: string): Promise<string> {
+    //const jwt = request.cookies['access_token'];
     try {
       const data = await this.jwtService.verifyAsync(jwt, {
         secret: process.env.JWT_SECRET,

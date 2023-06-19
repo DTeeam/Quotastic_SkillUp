@@ -13,7 +13,10 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
-import { PaginatedResult } from 'interfaces/paginated-result.interface';
+import {
+  PaginatedResult,
+  PaginatedResultRecent,
+} from 'interfaces/paginated-result.interface';
 import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -29,6 +32,14 @@ export class QuotesController {
   @SetMetadata('isPublic', true)
   async paginated(@Query('page') page: number): Promise<PaginatedResult> {
     return this.quotesService.paginate(page);
+  }
+
+  @Get('/recent')
+  @HttpCode(HttpStatus.OK)
+  async paginatedRecent(
+    @Query('page') page: number,
+  ): Promise<PaginatedResultRecent> {
+    return this.quotesService.paginateRecent(page);
   }
 
   @Get('rand')

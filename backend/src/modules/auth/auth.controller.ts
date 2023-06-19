@@ -44,13 +44,15 @@ export class AuthController {
     const access_token = await this.authService.generateJwt(req.user);
 
     res.cookie('access_token', access_token, { httpOnly: true });
+    console.log(req.user);
+
     return req.user;
   }
 
   @Get('me')
   @HttpCode(HttpStatus.OK)
   async user(@Req() req: Request): Promise<User> {
-    const cookie = req.cookies['access_token'];
+    const cookie = req.cookies.access_token;
     return this.authService.user(cookie);
   }
 

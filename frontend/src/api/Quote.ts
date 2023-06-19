@@ -16,6 +16,12 @@ export const fetchQuotes = async (pageNumber: number) =>
     `${apiRoutes.QUOTES_PREFIX}?page=${pageNumber}`
   );
 
+export const fetchRecentQuotes = async (pageNumber: number) =>
+  apiRequest<undefined, QuoteType[]>(
+    'get',
+    `${apiRoutes.QUOTES_PREFIX}/recent?page=${pageNumber}`
+  );
+
 export const createQuote = async (data: CreateUpdateQuoteFields) =>
   apiRequest<CreateUpdateQuoteFields, QuoteType>(
     'post',
