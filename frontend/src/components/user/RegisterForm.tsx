@@ -30,6 +30,7 @@ const RegisterForm: FC = () => {
   const onSubmit = handleSubmit(async (data: RegisterUserFields) => {
     if (!file) return;
     const response = await API.register(data);
+
     if (response.data?.statusCode === StatusCode.BAD_REQUEST) {
       setApiError(response.data.message);
       setShowError(true);
@@ -38,6 +39,8 @@ const RegisterForm: FC = () => {
       setShowError(true);
     } else {
       //Login user before uploading an avatar img
+      console.log(data);
+
       const loginResponse = await API.login({
         email: data.email,
         password: data.password,
@@ -53,12 +56,14 @@ const RegisterForm: FC = () => {
         setShowError(true);
       } else {
         //Upload avatar img
+
         const formData = new FormData();
         formData.append('avatar', file, file.name);
         const fileResponse = await API.uploadAvatar(
           formData,
           loginResponse.data.id
         );
+
         if (fileResponse.data?.statusCode === StatusCode.BAD_REQUEST) {
           setApiError(fileResponse.data.message);
           setShowError(true);
@@ -70,6 +75,7 @@ const RegisterForm: FC = () => {
         } else {
           //Get user with avatar image
           const userResponse = await API.fetchUser();
+
           if (
             userResponse.data?.statusCode === StatusCode.INTERNAL_SERVER_ERROR
           ) {

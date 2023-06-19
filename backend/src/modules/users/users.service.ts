@@ -57,6 +57,7 @@ export class UsersService extends AbstractService {
       Object.entries(data).map((entry) => {
         user[entry[0]] = entry[1];
       });
+
       return this.usersRepository.save(user);
     } catch (error) {
       Logging.error(error);

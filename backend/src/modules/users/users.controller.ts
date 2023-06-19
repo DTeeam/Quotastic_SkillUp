@@ -54,7 +54,6 @@ export class UsersController {
     @Param('id') id: string,
   ): Promise<User> {
     const filename = file?.filename;
-
     if (!filename) throw new BadRequestException('File must be the right type');
 
     const imagesFolderPath = join(process.cwd(), 'files');

@@ -13,7 +13,7 @@ export class User extends Base {
   @Column({ nullable: true })
   last_name: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   avatar: string;
 
   @Column({ nullable: true })

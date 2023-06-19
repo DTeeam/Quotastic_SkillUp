@@ -34,7 +34,7 @@ export class QuotesController {
     return this.quotesService.paginate(page);
   }
 
-  @Get('/recent/ass')
+  @Get('/recent')
   @HttpCode(HttpStatus.OK)
   async paginatedRecent(
     @Query('page') page: number,

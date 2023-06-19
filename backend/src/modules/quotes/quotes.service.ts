@@ -27,7 +27,7 @@ export class QuotesService extends AbstractService {
   ): Promise<Quote> {
     try {
       const quote = await this.quotesRepository.create(createQuoteDto);
-      const user = await this.authService.user(request);
+      const user = await this.authService.user(request.cookies.access_token);
       quote.user = user;
 
       return await this.quotesRepository.save(quote);
