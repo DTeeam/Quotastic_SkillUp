@@ -14,6 +14,7 @@ import { StatusCode } from '../../../constants/errorConstants';
 import { UserType } from '../../../models/auth';
 import { observer } from 'mobx-react';
 import authStore from 'stores/auth.store';
+import { userStorage } from 'utils/localStorage';
 
 interface Props {
   defaultValues?: UserType;
@@ -37,20 +38,46 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
   };
 
   const handleUpdate = async (data: UpdateUserFields) => {
-    const response = await API.updateUser(data, authStore.user?.id as string);
+    try {
+      let loginResponse;
 
-    if (response.data?.statusCode === StatusCode.BAD_REQUEST) {
-      setApiError(response.data.message);
-      setShowError(true);
-    } else if (response.data?.statusCode === StatusCode.INTERNAL_SERVER_ERROR) {
-      setApiError(response.data.message);
-      setShowError(true);
-    } else {
-      console.log(data.password);
-      console.log(data.old_password);
+      if (data.old_password !== undefined) {
+        loginResponse = await API.login({
+          email: data.email,
+          password: data.old_password,
+        });
+
+        if (loginResponse?.data?.statusCode === StatusCode.BAD_REQUEST) {
+          setApiError('Old password incorrect');
+          setShowError(true);
+          return;
+        } else if (
+          loginResponse?.data?.statusCode === StatusCode.INTERNAL_SERVER_ERROR
+        ) {
+          setApiError(loginResponse.data.message);
+          setShowError(true);
+          return;
+        }
+      }
+
+      const response = await API.updateUser(data, authStore.user?.id as string);
+
+      if (
+        response.data?.statusCode === StatusCode.BAD_REQUEST ||
+        response.data?.statusCode === StatusCode.INTERNAL_SERVER_ERROR
+      ) {
+        setApiError(response.data.message);
+        setShowError(true);
+        return;
+      }
 
       onSubmitSuccess();
       authStore.updateUser(response.data);
+    } catch (error) {
+      // Handle unexpected errors or exceptions
+      console.error('An error occurred:', error);
+      setApiError('An error occurred while updating the user.');
+      setShowError(true);
     }
   };
 
@@ -65,7 +92,7 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
               <FormLabel htmlFor="password">Current password</FormLabel>
               <input
                 {...field}
-                type="password"
+                type="text"
                 aria-label="Password"
                 aria-describedby="password"
                 className={
@@ -89,7 +116,7 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
               <FormLabel htmlFor="password">New password</FormLabel>
               <input
                 {...field}
-                type="password"
+                type="text"
                 aria-label="New password"
                 aria-describedby="password"
                 className={
@@ -114,7 +141,7 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
               </FormLabel>
               <input
                 {...field}
-                type="password"
+                type="text"
                 aria-label="Confirm password"
                 aria-describedby="confirm_password"
                 className={
