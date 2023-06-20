@@ -33,7 +33,7 @@ export class AuthService {
   async register(registerUserDto: RegisterUserDto): Promise<User> {
     const hashedPassword = await hash(registerUserDto.password);
 
-    return this.usersService.create({
+    return await this.usersService.create({
       ...registerUserDto,
       password: hashedPassword,
     });

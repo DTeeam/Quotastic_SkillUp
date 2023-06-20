@@ -74,7 +74,7 @@ const RegisterForm: FC = () => {
           setShowError(true);
         } else {
           //Get user with avatar image
-          const userResponse = await API.fetchUser();
+          const userResponse = await API.login(data);
 
           if (
             userResponse.data?.statusCode === StatusCode.INTERNAL_SERVER_ERROR
