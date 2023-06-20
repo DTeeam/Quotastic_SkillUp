@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { useQuery, useInfiniteQuery } from 'react-query';
 import * as API from 'api/Api';
 import { QuoteType } from 'models/quote';
+import authStore from 'stores/auth.store';
 
 const DisplayUpvotedQuotesForm: FC = () => {
   const [apiError] = useState('');
@@ -58,7 +59,7 @@ const DisplayUpvotedQuotesForm: FC = () => {
             ))}
           </div>
 
-          {hasNextPage && (
+          {hasNextPage && authStore.user && (
             <div>
               <Button
                 onClick={() => fetchNextPage()}

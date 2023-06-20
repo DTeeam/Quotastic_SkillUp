@@ -12,7 +12,7 @@ const DisplayRecentQuotesForm: FC = () => {
   const [apiError] = useState('');
   const [showError, setShowError] = useState(false);
 
-  const { data, isLoading, fetchNextPage, isFetchingNextPage } =
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery(
       'fetchRecentQuotes',
       ({ pageParam = 1 }) => API.fetchRecentQuotes(pageParam),
@@ -58,7 +58,7 @@ const DisplayRecentQuotesForm: FC = () => {
             ))}
           </div>
 
-          {authStore.user && (
+          {hasNextPage && (
             <div>
               <Button
                 onClick={() => fetchNextPage()}

@@ -14,15 +14,13 @@ import { StatusCode } from '../../../constants/errorConstants';
 import { UserType } from '../../../models/auth';
 import { observer } from 'mobx-react';
 import authStore from 'stores/auth.store';
-import UserPassSettingsPop from 'pages/Dashboard/Users/settings/PassSettings';
-import UpdateUserPassForm from './UpdateUserPassForm';
 
 interface Props {
   defaultValues?: UserType;
   onSubmitSuccess: () => void;
 }
 
-const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
+const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
   const { handleSubmit, errors, control, reset } = useCreateUpdateUserForm({
     defaultValues: authStore.user || undefined,
   });
@@ -50,6 +48,7 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
     } else {
       onSubmitSuccess();
       authStore.updateUser(response.data);
+      console.log(authStore.user?.first_name);
     }
   };
 
@@ -58,15 +57,15 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
       <Form onSubmit={onSubmit} onError={onError}>
         <Controller
           control={control}
-          name="email"
+          name="password"
           render={({ field }) => (
             <Form.Group className="mb-3">
-              <FormLabel htmlFor="email">Mail</FormLabel>
+              <FormLabel htmlFor="email">Current password</FormLabel>
               <input
                 {...field}
-                type="email"
-                aria-label="Email"
-                aria-describedby="email"
+                type="password"
+                aria-label="Password"
+                aria-describedby="password"
                 className={
                   errors.email ? 'form-control is-invalid' : 'form-control'
                 }
@@ -79,17 +78,18 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
             </Form.Group>
           )}
         />
+
         <Controller
           control={control}
-          name="first_name"
+          name="password"
           render={({ field }) => (
             <Form.Group className="mb-3">
-              <FormLabel htmlFor="first_name">First name</FormLabel>
+              <FormLabel htmlFor="first_name">New password</FormLabel>
               <input
                 {...field}
-                type="text"
-                aria-label="First name"
-                aria-describedby="first_name"
+                type="password"
+                aria-label="New password"
+                aria-describedby="password"
                 className={
                   errors.first_name ? 'form-control is-invalid' : 'form-control'
                 }
@@ -104,15 +104,15 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
         />
         <Controller
           control={control}
-          name="last_name"
+          name="confirm_password"
           render={({ field }) => (
             <Form.Group className="mb-3">
-              <FormLabel htmlFor="last_name">Last name</FormLabel>
+              <FormLabel htmlFor="last_name">Confirm new password</FormLabel>
               <input
                 {...field}
-                type="last_name"
-                aria-label="Last name"
-                aria-describedby="last_name"
+                type="confirm_password"
+                aria-label="Confirm password"
+                aria-describedby="confirm_password"
                 className={
                   errors.last_name ? 'form-control is-invalid' : 'form-control'
                 }
@@ -125,10 +125,10 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
             </Form.Group>
           )}
         />
-        <Button type="submit">Submit</Button>
 
-        <UserPassSettingsPop />
-        <Button type="submit">Change profile picture</Button>
+        <Button className="w-100" type="submit">
+          Submit
+        </Button>
       </Form>
       {showError && (
         <ToastContainer className="p-3" position="top-end">
@@ -144,4 +144,4 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
   );
 };
 
-export default observer(UpdateUserBasicForm);
+export default observer(UpdateUserPassForm);

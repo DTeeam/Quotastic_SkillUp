@@ -44,7 +44,6 @@ export class AuthController {
     const access_token = await this.authService.generateJwt(req.user);
 
     res.cookie('access_token', access_token, { httpOnly: true });
-    console.log(req.user);
 
     return req.user;
   }
@@ -53,7 +52,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async user(@Req() req: Request): Promise<User> {
     const cookie = req.cookies.access_token;
-    return this.authService.user(cookie);
+    return await this.authService.user(cookie);
   }
 
   @Post('signout')

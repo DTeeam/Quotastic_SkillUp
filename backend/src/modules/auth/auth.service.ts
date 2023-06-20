@@ -47,8 +47,8 @@ export class AuthService {
   }
 
   async user(cookie: string): Promise<User> {
-    const data = this.getUserId(cookie);
-    return this.usersService.findById(data['id']);
+    const data = await this.getUserId(cookie);
+    return this.usersService.findById(data);
   }
 
   async getUserId(jwt: string): Promise<string> {
