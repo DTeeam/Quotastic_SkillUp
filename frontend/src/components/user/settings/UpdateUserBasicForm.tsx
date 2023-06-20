@@ -126,9 +126,6 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
           )}
         />
         <Button type="submit">Submit</Button>
-
-        <UserPassSettingsPop />
-        <Button type="submit">Change profile picture</Button>
       </Form>
       {showError && (
         <ToastContainer className="p-3" position="top-end">

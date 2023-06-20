@@ -46,9 +46,11 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
       setApiError(response.data.message);
       setShowError(true);
     } else {
+      console.log(data.password);
+      console.log(data.old_password);
+
       onSubmitSuccess();
       authStore.updateUser(response.data);
-      console.log(authStore.user?.first_name);
     }
   };
 
@@ -57,22 +59,22 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
       <Form onSubmit={onSubmit} onError={onError}>
         <Controller
           control={control}
-          name="password"
+          name="old_password"
           render={({ field }) => (
             <Form.Group className="mb-3">
-              <FormLabel htmlFor="email">Current password</FormLabel>
+              <FormLabel htmlFor="password">Current password</FormLabel>
               <input
                 {...field}
                 type="password"
                 aria-label="Password"
                 aria-describedby="password"
                 className={
-                  errors.email ? 'form-control is-invalid' : 'form-control'
+                  errors.password ? 'form-control is-invalid' : 'form-control'
                 }
               />
-              {errors.email && (
+              {errors.password && (
                 <div className="invalid-feedback text-danger">
-                  {errors.email.message}
+                  {errors.password.message}
                 </div>
               )}
             </Form.Group>
@@ -84,19 +86,19 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
           name="password"
           render={({ field }) => (
             <Form.Group className="mb-3">
-              <FormLabel htmlFor="first_name">New password</FormLabel>
+              <FormLabel htmlFor="password">New password</FormLabel>
               <input
                 {...field}
                 type="password"
                 aria-label="New password"
                 aria-describedby="password"
                 className={
-                  errors.first_name ? 'form-control is-invalid' : 'form-control'
+                  errors.password ? 'form-control is-invalid' : 'form-control'
                 }
               />
-              {errors.first_name && (
+              {errors.password && (
                 <div className="invalid-feedback text-danger">
-                  {errors.first_name.message}
+                  {errors.password.message}
                 </div>
               )}
             </Form.Group>
@@ -107,28 +109,30 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
           name="confirm_password"
           render={({ field }) => (
             <Form.Group className="mb-3">
-              <FormLabel htmlFor="last_name">Confirm new password</FormLabel>
+              <FormLabel htmlFor="confirm_password">
+                Confirm new password
+              </FormLabel>
               <input
                 {...field}
-                type="confirm_password"
+                type="password"
                 aria-label="Confirm password"
                 aria-describedby="confirm_password"
                 className={
-                  errors.last_name ? 'form-control is-invalid' : 'form-control'
+                  errors.confirm_password
+                    ? 'form-control is-invalid'
+                    : 'form-control'
                 }
               />
-              {errors.last_name && (
+              {errors.confirm_password && (
                 <div className="invalid-feedback text-danger">
-                  {errors.last_name.message}
+                  {errors.confirm_password.message}
                 </div>
               )}
             </Form.Group>
           )}
         />
 
-        <Button className="w-100" type="submit">
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </Form>
       {showError && (
         <ToastContainer className="p-3" position="top-end">

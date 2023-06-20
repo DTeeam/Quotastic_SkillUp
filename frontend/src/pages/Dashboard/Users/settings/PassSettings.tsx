@@ -15,40 +15,17 @@ const UserPassSettingsPop = () => {
   };
 
   const onSubmitSuccess = () => {
-    setShowModal(false);
     setShowNewModal(true);
   };
 
-  const NewModalComponent = () => {
-    if (!showNewModal) {
-      return null;
-    }
-
-    const closeNewModal = () => {
-      setShowNewModal(false);
-      window.location.reload();
-    };
-
-    return (
-      <Modal show={showNewModal} onHide={() => setShowNewModal(false)}>
-        {
-          <div>
-            <Modal.Body>
-              <h4>
-                Profile <span className="orange">settings</span>
-              </h4>
-              <p>Your settings are saved.</p>
-              <button onClick={closeNewModal}>Close</button>
-            </Modal.Body>
-          </div>
-        }
-      </Modal>
-    );
+  const closeNewModal = () => {
+    setShowNewModal(false);
+    window.location.reload();
   };
 
   return (
     <div>
-      <button onClick={openModal}> Change password </button>
+      <button onClick={openModal}>Change password</button>
       <Modal show={showModal} onHide={closeModal}>
         <Modal.Body>
           <h4>
@@ -59,9 +36,18 @@ const UserPassSettingsPop = () => {
           <button onClick={closeModal}>Cancel</button>
         </Modal.Body>
       </Modal>
-      <NewModalComponent />
+      {showNewModal && (
+        <Modal show={showNewModal} onHide={closeNewModal}>
+          <Modal.Body>
+            <h4>
+              Profile <span className="orange">settings</span>
+            </h4>
+            <p>Your settings are saved.</p>
+            <button onClick={closeNewModal}>Close</button>
+          </Modal.Body>
+        </Modal>
+      )}
     </div>
   );
 };
-
 export default UserPassSettingsPop;

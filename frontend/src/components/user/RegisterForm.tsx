@@ -39,7 +39,6 @@ const RegisterForm: FC = () => {
       setShowError(true);
     } else {
       //Login user before uploading an avatar img
-      console.log(data);
 
       const loginResponse = await API.login({
         email: data.email,
