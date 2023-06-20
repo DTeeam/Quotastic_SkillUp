@@ -33,7 +33,7 @@ export class AuthService {
   async register(registerUserDto: RegisterUserDto): Promise<User> {
     const hashedPassword = await hash(registerUserDto.password);
 
-    return this.usersService.create({
+    return await this.usersService.create({
       ...registerUserDto,
       password: hashedPassword,
     });
@@ -47,8 +47,8 @@ export class AuthService {
   }
 
   async user(cookie: string): Promise<User> {
-    const data = this.getUserId(cookie);
-    return this.usersService.findById(data['id']);
+    const data = await this.getUserId(cookie);
+    return this.usersService.findById(data);
   }
 
   async getUserId(jwt: string): Promise<string> {

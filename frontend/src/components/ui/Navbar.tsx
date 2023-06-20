@@ -10,7 +10,7 @@ import * as API from 'api/Api';
 import Avatar from 'react-avatar';
 import AddQuotePop from 'pages/Dashboard/Quotes/Add';
 import { Link } from 'react-router-dom';
-import UserSettingsPop from 'pages/Dashboard/Users/settings';
+import UserSettingsPop from 'pages/Dashboard/Users/settings/BaseSettings';
 
 const Navbar: FC = () => {
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ const Navbar: FC = () => {
       setShowError(true);
     } else {
       authStore.signout();
+      window.location.reload();
       navigate('/landing');
     }
   };
