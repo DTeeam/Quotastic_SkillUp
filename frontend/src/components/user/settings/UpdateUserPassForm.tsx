@@ -92,7 +92,7 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
               <FormLabel htmlFor="password">Current password</FormLabel>
               <input
                 {...field}
-                type="text"
+                type="password"
                 aria-label="Password"
                 aria-describedby="password"
                 className={
@@ -116,7 +116,7 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
               <FormLabel htmlFor="password">New password</FormLabel>
               <input
                 {...field}
-                type="text"
+                type="password"
                 aria-label="New password"
                 aria-describedby="password"
                 className={
@@ -141,7 +141,7 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
               </FormLabel>
               <input
                 {...field}
-                type="text"
+                type="password"
                 aria-label="Confirm password"
                 aria-describedby="confirm_password"
                 className={
