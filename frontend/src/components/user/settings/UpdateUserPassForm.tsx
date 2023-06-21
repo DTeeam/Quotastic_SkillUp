@@ -14,7 +14,6 @@ import { StatusCode } from '../../../constants/errorConstants';
 import { UserType } from '../../../models/auth';
 import { observer } from 'mobx-react';
 import authStore from 'stores/auth.store';
-import { userStorage } from 'utils/localStorage';
 
 interface Props {
   defaultValues?: UserType;
@@ -119,6 +118,7 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
                 type="password"
                 aria-label="New password"
                 aria-describedby="password"
+                required
                 className={
                   errors.password ? 'form-control is-invalid' : 'form-control'
                 }
@@ -144,6 +144,7 @@ const UpdateUserPassForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
                 type="password"
                 aria-label="Confirm password"
                 aria-describedby="confirm_password"
+                required
                 className={
                   errors.confirm_password
                     ? 'form-control is-invalid'

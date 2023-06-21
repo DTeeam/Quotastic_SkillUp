@@ -14,8 +14,6 @@ import { StatusCode } from '../../../constants/errorConstants';
 import { UserType } from '../../../models/auth';
 import { observer } from 'mobx-react';
 import authStore from 'stores/auth.store';
-import UserPassSettingsPop from 'pages/Dashboard/Users/settings/PassSettings';
-import UpdateUserPassForm from './UpdateUserPassForm';
 
 interface Props {
   defaultValues?: UserType;

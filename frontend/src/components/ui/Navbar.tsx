@@ -10,7 +10,7 @@ import * as API from 'api/Api';
 import Avatar from 'react-avatar';
 import AddQuotePop from 'pages/Dashboard/Quotes/Add';
 import { Link } from 'react-router-dom';
-import UserSettingsPop from 'pages/Dashboard/Users/settings/BaseSettings';
+import UserSettingsPop from 'pages/Dashboard/Users/settings/Settings';
 
 const Navbar: FC = () => {
   const navigate = useNavigate();
