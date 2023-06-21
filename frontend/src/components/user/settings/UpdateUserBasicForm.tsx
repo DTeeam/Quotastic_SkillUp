@@ -5,7 +5,7 @@ import {
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast';
-import { Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { routes } from '../../../constants/routesConstants';
 import { Form, FormLabel, ToastContainer } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -48,6 +48,9 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
     } else {
       onSubmitSuccess();
       authStore.updateUser(response.data);
+      defaultValues = authStore.user || undefined;
+
+      return;
     }
   };
 
