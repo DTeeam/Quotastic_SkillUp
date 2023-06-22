@@ -1,26 +1,26 @@
 import {
   RegisterUserFields,
   useRegisterForm,
-} from 'hooks/react-hook-form/useRegister';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import ToastContainer from 'react-bootstrap/ToastContainer';
-import Toast from 'react-bootstrap/Toast';
-import { Form } from 'react-bootstrap';
-import { Controller } from 'react-hook-form';
-import FormLabel from 'react-bootstrap/FormLabel';
-import { routes } from 'constants/routesConstants';
-import Button from 'react-bootstrap/Button';
-import * as API from 'api/Api';
-import { StatusCode } from 'constants/errorConstants';
-import authStore from 'stores/auth.store';
-import Avatar from 'react-avatar';
-import { observer } from 'mobx-react';
+} from "hooks/react-hook-form/useRegister";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import ToastContainer from "react-bootstrap/ToastContainer";
+import Toast from "react-bootstrap/Toast";
+import { Form } from "react-bootstrap";
+import { Controller } from "react-hook-form";
+import FormLabel from "react-bootstrap/FormLabel";
+import { routes } from "constants/routesConstants";
+import Button from "react-bootstrap/Button";
+import * as API from "api/Api";
+import { StatusCode } from "constants/errorConstants";
+import authStore from "stores/auth.store";
+import Avatar from "react-avatar";
+import { observer } from "mobx-react";
 
 const RegisterForm: FC = () => {
   const navigate = useNavigate();
   const { handleSubmit, errors, control } = useRegisterForm();
-  const [apiError, setApiError] = useState('');
+  const [apiError, setApiError] = useState("");
   const [showError, setShowError] = useState(false);
 
   const [file, setFile] = useState<File | null>(null);
@@ -57,7 +57,7 @@ const RegisterForm: FC = () => {
         //Upload avatar img
 
         const formData = new FormData();
-        formData.append('avatar', file, file.name);
+        formData.append("avatar", file, file.name);
         const fileResponse = await API.uploadAvatar(
           formData,
           loginResponse.data.id
@@ -82,7 +82,7 @@ const RegisterForm: FC = () => {
             setShowError(true);
           } else {
             authStore.login(userResponse.data);
-            navigate('/');
+            navigate("/profile");
           }
         }
       }
@@ -148,7 +148,7 @@ const RegisterForm: FC = () => {
                 aria-label="First name"
                 aria-describedby="first_name"
                 className={
-                  errors.first_name ? 'form-control is-invalid' : 'form-control'
+                  errors.first_name ? "form-control is-invalid" : "form-control"
                 }
               />
               {errors.first_name && (
@@ -171,7 +171,7 @@ const RegisterForm: FC = () => {
                 aria-label="Last name"
                 aria-describedby="last_name"
                 className={
-                  errors.last_name ? 'form-control is-invalid' : 'form-control'
+                  errors.last_name ? "form-control is-invalid" : "form-control"
                 }
               />
               {errors.last_name && (
@@ -195,7 +195,7 @@ const RegisterForm: FC = () => {
                 aria-label="Email"
                 aria-describedby="email"
                 className={
-                  errors.email ? 'form-control is-invalid' : 'form-control'
+                  errors.email ? "form-control is-invalid" : "form-control"
                 }
               />
               {errors.email && (
@@ -219,7 +219,7 @@ const RegisterForm: FC = () => {
                 aria-label="Password"
                 aria-describedby="password"
                 className={
-                  errors.password ? 'form-control is-invalid' : 'form-control'
+                  errors.password ? "form-control is-invalid" : "form-control"
                 }
               />
               {errors.password && (
@@ -243,8 +243,8 @@ const RegisterForm: FC = () => {
                 aria-describedby="confirm_password"
                 className={
                   errors.confirm_password
-                    ? 'form-control is-invalid'
-                    : 'form-control'
+                    ? "form-control is-invalid"
+                    : "form-control"
                 }
               />
               {errors.confirm_password && (

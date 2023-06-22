@@ -22,8 +22,11 @@ export const fetchRecentQuotes = async (pageNumber: number) =>
     `${apiRoutes.QUOTES_PREFIX}/recent?page=${pageNumber}`
   );
 
-  export const fetchQuoteCount = async (id: string) =>
+  export const fetchQuotesCount = async (id: string) =>
   apiRequest<undefined, number>('get', `${apiRoutes.QUOTES_PREFIX}/count/${id}`);
+
+  export const fetchVotesCount = async (id: string) =>
+  apiRequest<undefined, number>('get', `${apiRoutes.QUOTES_PREFIX}/karma/${id}`);
 
 
 export const createQuote = async (data: CreateUpdateQuoteFields) =>

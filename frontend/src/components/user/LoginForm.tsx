@@ -1,22 +1,22 @@
-import { LoginUserFields, useLoginForm } from 'hooks/react-hook-form/useLogin';
-import { FC, useState } from 'react';
-import ToastContainer from 'react-bootstrap/ToastContainer';
-import Toast from 'react-bootstrap/Toast';
-import Button from 'react-bootstrap/Button';
-import FormLabel from 'react-bootstrap/FormLabel';
-import Form from 'react-bootstrap/Form';
-import { Controller } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import authStore from 'stores/auth.store';
-import * as API from 'api/Api';
-import { StatusCode } from 'constants/errorConstants';
-import { routes } from 'constants/routesConstants';
-import { observer } from 'mobx-react';
+import { LoginUserFields, useLoginForm } from "hooks/react-hook-form/useLogin";
+import { FC, useState } from "react";
+import ToastContainer from "react-bootstrap/ToastContainer";
+import Toast from "react-bootstrap/Toast";
+import Button from "react-bootstrap/Button";
+import FormLabel from "react-bootstrap/FormLabel";
+import Form from "react-bootstrap/Form";
+import { Controller } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import authStore from "stores/auth.store";
+import * as API from "api/Api";
+import { StatusCode } from "constants/errorConstants";
+import { routes } from "constants/routesConstants";
+import { observer } from "mobx-react";
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();
   const { handleSubmit, errors, control } = useLoginForm();
-  const [apiError, setApiError] = useState('');
+  const [apiError, setApiError] = useState("");
   const [showError, setShowError] = useState(false);
 
   const onSubmit = handleSubmit(async (data: LoginUserFields) => {
@@ -29,7 +29,7 @@ const LoginForm: FC = () => {
       setShowError(true);
     } else {
       authStore.login(response.data);
-      navigate('/');
+      navigate("/profile");
     }
   });
 
@@ -49,7 +49,7 @@ const LoginForm: FC = () => {
                 aria-label="Email"
                 aria-describedby="email"
                 className={
-                  errors.email ? 'form-control is-invalid' : 'form-control'
+                  errors.email ? "form-control is-invalid" : "form-control"
                 }
               />
               {errors.email && (
@@ -73,7 +73,7 @@ const LoginForm: FC = () => {
                 aria-label="Password"
                 aria-describedby="password"
                 className={
-                  errors.password ? 'form-control is-invalid' : 'form-control'
+                  errors.password ? "form-control is-invalid" : "form-control"
                 }
               />
               {errors.password && (

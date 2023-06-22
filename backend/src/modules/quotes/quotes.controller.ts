@@ -60,6 +60,12 @@ export class QuotesController {
     return this.quotesService.CountQuotesByUserId(id);
   }
 
+  @Get('/karma/:id')
+  @HttpCode(HttpStatus.OK)
+  async countUsersVotes(@Param('id') id: string): Promise<number> {
+    return this.quotesService.CountUserVotes(id);
+  }
+
 
   @Post('myquote')
   @HttpCode(HttpStatus.CREATED)

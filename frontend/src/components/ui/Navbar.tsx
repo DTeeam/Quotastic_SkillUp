@@ -31,7 +31,6 @@ const Navbar: FC = () => {
       setShowError(true);
     } else {
       authStore.signout();
-      window.location.reload();
       navigate("/landing");
     }
   };

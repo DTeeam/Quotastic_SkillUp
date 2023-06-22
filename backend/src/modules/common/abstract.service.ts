@@ -58,7 +58,7 @@ export class AbstractService {
       );
     }
   }
-  async findRand(relations = []): Promise<any> {
+  async findRand(): Promise<any> {
     try {
       const [quote, totalCount] = await this.repository.query(
         `SELECT q.*, u.* FROM "quote" q INNER JOIN "user" u ON q.user_id = u.id ORDER BY RANDOM() LIMIT 1`,
@@ -172,6 +172,23 @@ export class AbstractService {
     }
   }
   
+  async CountUserVotes(userId: string): Promise<any> {
+    try {
+      const query = `
+        SELECT SUM(q.votes)
+        FROM quote q
+        INNER JOIN "user" u ON q.user_id = u.id
+        WHERE u.id = $1;
+      `;
+  
+      const [totalVotes] = await this.repository.query(query, [userId]);
+  
+      return totalVotes;
+    } catch (error) {
+      Logging.error(error);
+      throw new InternalServerErrorException('Failed to count karma');
+    }
+  }
   
   
 }

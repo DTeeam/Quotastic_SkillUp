@@ -8,9 +8,18 @@ const ProfileInfo = () => {
     userID = authStore.user?.id;
   }
 
-  const { data, isLoading } = useQuery(
-    ["fetchQuoteCount"],
-    () => API.fetchQuoteCount(userID),
+  const { data: dataQuotes } = useQuery(
+    ["fetchQuotesCount"],
+    () => API.fetchQuotesCount(userID),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { data: dataVotes } = useQuery(
+    ["fetchVotesCount"],
+    () => API.fetchVotesCount(userID),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
@@ -22,9 +31,13 @@ const ProfileInfo = () => {
       <div>
         Quotes
         <br />
-        {`${data.data}`}
+        {`${dataQuotes?.data}`}
       </div>
-      <div>Quotastic karma</div>
+      <div>
+        Quotastic karma
+        <br />
+        {`${dataVotes?.data.sum}`}
+      </div>
     </>
   );
 };
