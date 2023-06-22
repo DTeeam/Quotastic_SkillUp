@@ -1,3 +1,4 @@
+import DisplayUpvotedProfileQuotesForm from "components/quote/Profile_quotes/DisplayUpvotedQuoteForm";
 import Navbar from "components/ui/Navbar";
 import ProfileInfo from "components/ui/ProfileInfo";
 import { FC } from "react";
@@ -23,6 +24,10 @@ const Profile: FC = () => {
         {`${authStore.user?.first_name} ${authStore.user?.last_name}`}
       </div>
       <ProfileInfo />
+      <div>
+        <p className="orange">Most liked quotes</p>
+        <DisplayUpvotedProfileQuotesForm />
+      </div>
     </div>
   );
 };

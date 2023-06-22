@@ -24,3 +24,16 @@ export interface PaginatedResultRecent {
     last_page: number;
   };
 }
+export interface PaginatedResultUpvoted {
+  data: {
+    quote: string;
+    votes: number;
+    sort_by: 'votes';
+    sort_order: 'desc';
+  }[];
+  meta: {
+    total: number;
+    page: number;
+    last_page: number;
+  };
+}

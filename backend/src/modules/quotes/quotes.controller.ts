@@ -16,6 +16,7 @@ import { QuotesService } from './quotes.service';
 import {
   PaginatedResult,
   PaginatedResultRecent,
+  PaginatedResultUpvoted,
 } from 'interfaces/paginated-result.interface';
 import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
@@ -42,6 +43,15 @@ export class QuotesController {
     return this.quotesService.paginateRecent(page);
   }
 
+  @Get('/profile/upvoted/:id')
+  @HttpCode(HttpStatus.OK)
+  async paginatedUpvote(
+    @Query('page') page: number,
+    @Param('id') id: string,
+  ): Promise<PaginatedResultUpvoted> {
+    return this.quotesService.paginateProfileUpvoted(id, page);
+  }
+
   @Get('rand')
   @HttpCode(HttpStatus.OK)
   async findRand(): Promise<Quote> {
@@ -65,7 +75,6 @@ export class QuotesController {
   async countUsersVotes(@Param('id') id: string): Promise<number> {
     return this.quotesService.CountUserVotes(id);
   }
-
 
   @Post('myquote')
   @HttpCode(HttpStatus.CREATED)
