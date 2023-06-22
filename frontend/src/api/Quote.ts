@@ -31,6 +31,15 @@ export const fetchProfileUpvotedQuotes = async (
     `${apiRoutes.QUOTES_PREFIX}/profile/upvoted/${id}/?page=${pageNumber}`
   );
 
+export const fetchProfileRecentQuotes = async (
+  id: string,
+  pageNumber: number
+) =>
+  apiRequest<undefined, QuoteType[]>(
+    "get",
+    `${apiRoutes.QUOTES_PREFIX}/profile/recent/${id}/?page=${pageNumber}`
+  );
+
 export const fetchQuotesCount = async (id: string) =>
   apiRequest<undefined, number>(
     "get",

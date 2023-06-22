@@ -45,11 +45,20 @@ export class QuotesController {
 
   @Get('/profile/upvoted/:id')
   @HttpCode(HttpStatus.OK)
-  async paginatedUpvote(
+  async paginatedUpvoteProfile(
     @Query('page') page: number,
     @Param('id') id: string,
   ): Promise<PaginatedResultUpvoted> {
     return this.quotesService.paginateProfileUpvoted(id, page);
+  }
+
+  @Get('/profile/recent/:id')
+  @HttpCode(HttpStatus.OK)
+  async paginatedRecentProfile(
+    @Query('page') page: number,
+    @Param('id') id: string,
+  ): Promise<PaginatedResultRecent> {
+    return this.quotesService.paginateProfileRecent(id, page);
   }
 
   @Get('rand')

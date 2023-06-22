@@ -197,6 +197,44 @@ export class AbstractService {
     }
   }
 
+  async paginateProfileRecent(
+    userId: string,
+    page = 1,
+    relations = [],
+  ): Promise<PaginatedResultRecent> {
+    const take = 4;
+    try {
+      const [data, total] = await this.repository.findAndCount({
+        take,
+        skip: (page - 1) * take,
+        where: { user: { id: userId } },
+        relations: ['user', ...relations],
+        order: { created_at: 'DESC' },
+      });
+
+      const quotesWithUser = data.map((quote) => {
+        const { user, ...quoteData } = quote;
+        return {
+          ...quoteData,
+          user: user as User,
+        };
+      });
+      return {
+        data: quotesWithUser,
+        meta: {
+          total,
+          page,
+          last_page: Math.ceil(total / take),
+        },
+      };
+    } catch (error) {
+      Logging.error(error);
+      throw new InternalServerErrorException(
+        'Paginated search result unsuccessful',
+      );
+    }
+  }
+
   async CountQuotesByUserId(userId: string, relations = []): Promise<number> {
     try {
       const quotesCount = await this.repository.count({
