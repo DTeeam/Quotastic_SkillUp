@@ -157,4 +157,21 @@ export class AbstractService {
       );
     }
   }
+
+  async CountQuotesByUserId(userId: string, relations = []): Promise<number> {
+    try {
+      const quotesCount = await this.repository.count({
+        where: { user: { id: userId } },
+        relations: ['user', ...relations],
+      });
+  
+      return quotesCount;
+    } catch (error) {
+      Logging.error(error);
+      throw new InternalServerErrorException('Failed to count quotes');
+    }
+  }
+  
+  
+  
 }

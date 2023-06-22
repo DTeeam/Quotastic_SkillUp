@@ -54,6 +54,13 @@ export class QuotesController {
     return this.quotesService.findById(id);
   }
 
+  @Get('/count/:id')
+  @HttpCode(HttpStatus.OK)
+  async countUsersQuote(@Param('id') id: string): Promise<number> {
+    return this.quotesService.CountQuotesByUserId(id);
+  }
+
+
   @Post('myquote')
   @HttpCode(HttpStatus.CREATED)
   async create(
