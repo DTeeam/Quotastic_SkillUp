@@ -103,16 +103,22 @@ export class QuotesController {
     return this.quotesService.update(id, createQuoteDto);
   }
 
-  @Patch(':id/upvote')
+  @Patch(':qid/:uid/upvote')
   @HttpCode(HttpStatus.OK)
-  async upvote(@Param('id') id: string): Promise<Quote> {
-    return this.quotesService.upvote(id);
+  async upvote(
+    @Param('qid') qid: string,
+    @Param('uid') uid: string,
+  ): Promise<Quote> {
+    return this.quotesService.upvote(qid, uid);
   }
 
-  @Patch(':id/downvote')
+  @Patch(':qid/:uid/downvote')
   @HttpCode(HttpStatus.OK)
-  async downvote(@Param('id') id: string): Promise<Quote> {
-    return this.quotesService.downvote(id);
+  async downvote(
+    @Param('qid') qid: string,
+    @Param('uid') uid: string,
+  ): Promise<Quote> {
+    return this.quotesService.downvote(qid, uid);
   }
 
   @Delete(':id')

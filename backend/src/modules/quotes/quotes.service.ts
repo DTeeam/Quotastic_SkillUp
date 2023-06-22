@@ -8,6 +8,9 @@ import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
 import { AuthService } from 'modules/auth/auth.service';
 import { Vote } from 'entities/vote.entity';
 import { Request } from 'express';
+import { UUID } from 'typeorm/driver/mongodb/bson.typings.js';
+import { User } from 'entities/user.entity';
+import { UsersService } from 'modules/users/users.service';
 
 @Injectable()
 export class QuotesService extends AbstractService {
@@ -17,6 +20,7 @@ export class QuotesService extends AbstractService {
     @InjectRepository(Vote)
     private readonly votesRepository: Repository<Vote>,
     @Inject(AuthService) private authService: AuthService,
+    @Inject(UsersService) private usersService: UsersService,
   ) {
     super(quotesRepository);
   }
@@ -51,7 +55,7 @@ export class QuotesService extends AbstractService {
     }
   }
 
-  async upvote(quoteId: string): Promise<Quote> {
+  /*async upvote(quoteId: string): Promise<Quote> {
     const quote = (await this.findById(quoteId)) as Quote;
     const data = await this.votesRepository.find({
       relations: ['quote'],
@@ -70,13 +74,44 @@ export class QuotesService extends AbstractService {
       throw new BadRequestException('Could not upvote quote');
     }
   }
+*/
 
-  async downvote(quoteId: string): Promise<Quote> {
+  async upvote(quoteId: string, userId: string): Promise<Quote> {
+    const user = (await this.usersService.findById(userId)) as User;
     const quote = (await this.findById(quoteId)) as Quote;
+
+    try {
+      quote.votes++;
+      await this.quotesRepository.save(quote);
+
+      const vote = new Vote();
+      vote.decision = 1;
+      vote.user = user;
+      vote.quote = quote;
+      await this.votesRepository.save(vote);
+
+      return quote;
+    } catch (error) {
+      Logging.error(error);
+      throw new BadRequestException('Could not upvote quote');
+    }
+  }
+
+  async downvote(quoteId: string, userId: string): Promise<Quote> {
+    const user = (await this.usersService.findById(userId)) as User;
+    const quote = (await this.findById(quoteId)) as Quote;
+
     try {
       quote.votes--;
+      await this.quotesRepository.save(quote);
 
-      return this.quotesRepository.save(quote);
+      const vote = new Vote();
+      vote.decision = 0;
+      vote.user = user;
+      vote.quote = quote;
+      await this.votesRepository.save(vote);
+
+      return quote;
     } catch (error) {
       Logging.error(error);
       throw new BadRequestException('Could not downvote the quote');

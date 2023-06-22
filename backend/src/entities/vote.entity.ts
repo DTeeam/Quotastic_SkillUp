@@ -14,5 +14,5 @@ export class Vote extends Base {
   quote: Quote;
 
   @Column({ nullable: true })
-  decision: string;
+  decision: number;
 }
