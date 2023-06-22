@@ -5,7 +5,7 @@ import {
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast';
-import { Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { routes } from '../../../constants/routesConstants';
 import { Form, FormLabel, ToastContainer } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -14,8 +14,6 @@ import { StatusCode } from '../../../constants/errorConstants';
 import { UserType } from '../../../models/auth';
 import { observer } from 'mobx-react';
 import authStore from 'stores/auth.store';
-import UserPassSettingsPop from 'pages/Dashboard/Users/settings/PassSettings';
-import UpdateUserPassForm from './UpdateUserPassForm';
 
 interface Props {
   defaultValues?: UserType;
@@ -50,6 +48,9 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
     } else {
       onSubmitSuccess();
       authStore.updateUser(response.data);
+      defaultValues = authStore.user || undefined;
+
+      return;
     }
   };
 
@@ -126,9 +127,6 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
           )}
         />
         <Button type="submit">Submit</Button>
-
-        <UserPassSettingsPop />
-        <Button type="submit">Change profile picture</Button>
       </Form>
       {showError && (
         <ToastContainer className="p-3" position="top-end">

@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserType } from 'models/auth';
 import { useForm } from 'react-hook-form';
+import authStore from 'stores/auth.store';
 import * as Yup from 'yup';
 
 export interface CreateUserFields {
@@ -17,6 +18,7 @@ export interface UpdateUserFields {
   email: string;
   password?: string;
   confirm_password?: string;
+  old_password?: string;
 }
 
 interface Props {
@@ -47,6 +49,7 @@ export const useCreateUpdateUserForm = ({ defaultValues }: Props) => {
     confirm_password: Yup.string()
       .oneOf([Yup.ref('password'), ''], 'Passwords do not match')
       .notRequired(),
+    old_password: Yup.string(),
   });
 
   const {
@@ -61,6 +64,7 @@ export const useCreateUpdateUserForm = ({ defaultValues }: Props) => {
       email: '',
       password: '',
       confirm_password: '',
+      old_password: '',
       ...defaultValues,
     },
     mode: 'onSubmit',
@@ -68,6 +72,7 @@ export const useCreateUpdateUserForm = ({ defaultValues }: Props) => {
       ? yupResolver(UpdateUserSchema)
       : yupResolver(CreateUserSchema),
   });
+
   return {
     handleSubmit,
     errors,
