@@ -19,6 +19,7 @@ const Landing = lazy(() => import('pages/Landing'));
 
 /* Private routes */
 const Home = lazy(() => import('pages/Home'));
+const Profile = lazy(() => import('pages/Profile'));
 
 //const DashboardUsers = lazy(() => import('pages/Dashboard/Users'));
 //const DashboardUsersAdd = lazy(() => import('pages/Dashboard/Users/Add'));
@@ -48,6 +49,12 @@ export const AppRoutes: AppRoute[] = [
     type: RouteType.PRIVATE,
     path: '/',
     children: <Home />,
+  },
+
+  {
+    type: RouteType.PRIVATE,
+    path: '/profile',
+    children: <Profile />,
   },
 
   // Public Routes

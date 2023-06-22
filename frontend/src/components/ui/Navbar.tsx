@@ -11,6 +11,8 @@ import Avatar from 'react-avatar';
 import AddQuotePop from 'pages/Dashboard/Quotes/Add';
 import { Link } from 'react-router-dom';
 import UserSettingsPop from 'pages/Dashboard/Users/settings/Settings';
+//import { v4 as uuidv4 } from 'uuid';
+import uuid from "react-uuid"
 
 const Navbar: FC = () => {
   const navigate = useNavigate();
@@ -33,6 +35,7 @@ const Navbar: FC = () => {
       navigate('/landing');
     }
   };
+
 
   return (
     <>
@@ -65,7 +68,7 @@ const Navbar: FC = () => {
                     <Avatar
                       className="topbar__avatar"
                       round
-                      src={`${process.env.REACT_APP_API_URL}/files/${authStore.user?.avatar}`}
+                      src={`${process.env.REACT_APP_API_URL}/files/${authStore.user?.avatar}?uid=${uuid()}`}
                       alt={
                         authStore.user?.first_name || authStore.user?.last_name
                           ? `${authStore.user?.first_name} ${authStore.user?.last_name}`

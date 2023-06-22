@@ -16,7 +16,7 @@ import { observer } from 'mobx-react';
 import authStore from 'stores/auth.store';
 
 interface Props {
-  defaultValues?: UserType;
+  defaultValues?: UserType & { isActiveUser?: boolean };
   onSubmitSuccess: () => void;
 }
 
@@ -37,6 +37,7 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
   };
 
   const handleUpdate = async (data: UpdateUserFields) => {
+
     const response = await API.updateUser(data, authStore.user?.id as string);
 
     if (response.data?.statusCode === StatusCode.BAD_REQUEST) {
@@ -45,10 +46,9 @@ const UpdateUserBasicForm: FC<Props> = ({ defaultValues, onSubmitSuccess }) => {
     } else if (response.data?.statusCode === StatusCode.INTERNAL_SERVER_ERROR) {
       setApiError(response.data.message);
       setShowError(true);
-    } else {
+    } else {      
       onSubmitSuccess();
       authStore.updateUser(response.data);
-      defaultValues = authStore.user || undefined;
 
       return;
     }

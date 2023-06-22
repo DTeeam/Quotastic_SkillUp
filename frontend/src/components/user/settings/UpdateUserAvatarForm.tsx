@@ -1,21 +1,21 @@
 import {
   UpdateUserFields,
   useCreateUpdateUserForm,
-} from '../../../hooks/react-hook-form/useCreateUpdateUser';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Toast from 'react-bootstrap/Toast';
-import { Controller } from 'react-hook-form';
-import { routes } from '../../../constants/routesConstants';
-import { Form, FormLabel, ToastContainer } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import * as API from '../../../api/Api';
-import { StatusCode } from '../../../constants/errorConstants';
-import { UserType } from '../../../models/auth';
-import { observer } from 'mobx-react';
-import authStore from 'stores/auth.store';
-import { userStorage } from 'utils/localStorage';
-import Avatar from 'react-avatar';
+} from "../../../hooks/react-hook-form/useCreateUpdateUser";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Toast from "react-bootstrap/Toast";
+import { Controller } from "react-hook-form";
+import { routes } from "../../../constants/routesConstants";
+import { Form, FormLabel, ToastContainer } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import * as API from "../../../api/Api";
+import { StatusCode } from "../../../constants/errorConstants";
+import { UserType } from "../../../models/auth";
+import { observer } from "mobx-react";
+import authStore from "stores/auth.store";
+import { userStorage } from "utils/localStorage";
+import Avatar from "react-avatar";
 
 interface Props {
   defaultValues?: UserType;
@@ -30,7 +30,7 @@ const UpdateUserAvatarForm: FC<Props> = ({
     defaultValues: authStore.user || undefined,
   });
 
-  const [apiError, setApiError] = useState('');
+  const [apiError, setApiError] = useState("");
   const [showError, setShowError] = useState(false);
 
   const [file, setFile] = useState<File | null>(null);
@@ -42,7 +42,7 @@ const UpdateUserAvatarForm: FC<Props> = ({
   });
 
   const onError = () => {
-    console.log('error');
+    console.log("error");
   };
 
   const handleUpdate = async (data: UpdateUserFields) => {
@@ -60,7 +60,7 @@ const UpdateUserAvatarForm: FC<Props> = ({
 
       const formData = new FormData();
       if (file) {
-        formData.append('avatar', file, file.name);
+        formData.append("avatar", file, file.name);
       }
       const fileResponse = await API.uploadAvatar(formData, response.data.id);
       if (fileResponse.data?.statusCode === StatusCode.BAD_REQUEST) {
@@ -77,8 +77,8 @@ const UpdateUserAvatarForm: FC<Props> = ({
       }
     } catch (error) {
       // Handle unexpected errors or exceptions
-      console.error('An error occurred:', error);
-      setApiError('An error occurred while updating the user.');
+      console.error("An error occurred:", error);
+      setApiError("An error occurred while updating the user.");
       setShowError(true);
     }
   };
