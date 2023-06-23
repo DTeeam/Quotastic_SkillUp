@@ -15,8 +15,8 @@ import {
 import { QuotesService } from './quotes.service';
 import {
   PaginatedResult,
+  PaginatedResultLiked,
   PaginatedResultRecent,
-  PaginatedResultUpvoted,
 } from 'interfaces/paginated-result.interface';
 import { Quote } from 'entities/quote.entity';
 import { CreateUpdateQuoteDto } from './dto/create-update-quote.dto';
@@ -48,7 +48,7 @@ export class QuotesController {
   async paginatedUpvoteProfile(
     @Query('page') page: number,
     @Param('id') id: string,
-  ): Promise<PaginatedResultUpvoted> {
+  ): Promise<PaginatedResult> {
     return this.quotesService.paginateProfileUpvoted(id, page);
   }
 
@@ -59,6 +59,15 @@ export class QuotesController {
     @Param('id') id: string,
   ): Promise<PaginatedResultRecent> {
     return this.quotesService.paginateProfileRecent(id, page);
+  }
+
+  @Get('/profile/liked/:id')
+  @HttpCode(HttpStatus.OK)
+  async paginatedLikedProfile(
+    @Query('page') page: number,
+    @Param('id') id: string,
+  ): Promise<PaginatedResultLiked[]> {
+    return this.quotesService.paginateProfileLiked(id, page);
   }
 
   @Get('rand')

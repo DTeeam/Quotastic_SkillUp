@@ -1,3 +1,4 @@
+import DisplayLikedProfileQuotesForm from "components/quote/Profile_quotes/DisplayLikedQuoteForm";
 import DisplayRecentProfileQuotesForm from "components/quote/Profile_quotes/DisplayRecentQuoteForm";
 import DisplayUpvotedProfileQuotesForm from "components/quote/Profile_quotes/DisplayUpvotedQuoteForm";
 import Navbar from "components/ui/Navbar";
@@ -32,6 +33,10 @@ const Profile: FC = () => {
       <div>
         <p className="orange">Most Recent</p>
         <DisplayRecentProfileQuotesForm />
+      </div>
+      <div>
+        <p className="orange">Liked</p>
+        <DisplayLikedProfileQuotesForm />
       </div>
     </div>
   );

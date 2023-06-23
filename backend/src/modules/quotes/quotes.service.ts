@@ -114,7 +114,7 @@ export class QuotesService extends AbstractService {
       return quote;
     } catch (error) {
       Logging.error(error);
-      throw new BadRequestException('Could not downvote the quote');
+      throw new BadRequestException('Could not downvote quote');
     }
   }
 }

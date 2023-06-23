@@ -3,13 +3,16 @@ import {
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { Quote } from 'entities/quote.entity';
 import { User } from 'entities/user.entity';
+import { Vote } from 'entities/vote.entity';
 import {
   PaginatedResult,
+  PaginatedResultLiked,
   PaginatedResultRecent,
-  PaginatedResultUpvoted,
 } from 'interfaces/paginated-result.interface';
 import Logging from 'library/Logging';
+import { SelectQueryBuilder } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 
 @Injectable()
@@ -163,7 +166,7 @@ export class AbstractService {
     userId: string,
     page = 1,
     relations = [],
-  ): Promise<PaginatedResultUpvoted> {
+  ): Promise<PaginatedResult> {
     const take = 4;
     try {
       const [data, total] = await this.repository.findAndCount({
@@ -219,6 +222,8 @@ export class AbstractService {
           user: user as User,
         };
       });
+      console.log(quotesWithUser);
+
       return {
         data: quotesWithUser,
         meta: {
@@ -235,6 +240,107 @@ export class AbstractService {
     }
   }
 
+  // Assuming you have defined your entities and repository classes
+
+  async paginateProfileLiked(
+    userId: string,
+    page: number,
+  ): Promise<PaginatedResultLiked[]> {
+    const take = 4;
+    const skippedItems = (page - 1) * take;
+
+    const queryBuilder = this.repository.createQueryBuilder('quote');
+    queryBuilder.select('quote', 'quote');
+    queryBuilder.addSelect('user', 'user');
+    queryBuilder.innerJoin(Vote, 'vote', 'quote.id = vote.quote_id');
+    queryBuilder.innerJoin(User, 'user', 'user.id = vote.user_id');
+    queryBuilder.where('vote.decision = :decision', { decision: 1 });
+    queryBuilder.andWhere('vote.user_id = :userId', { userId });
+    queryBuilder.skip(skippedItems);
+    queryBuilder.take(take);
+    //console.log(await queryBuilder.getRawMany());
+    const results = await queryBuilder.getRawMany();
+
+    const transformedResults = results.map((result: any) => {
+      return {
+        id: result.quote_id,
+        created_at: result.quote_created_at,
+        updated_at: result.quote_updated_at,
+        quote: result.quote_quote,
+        votes: result.quote_votes,
+        user: {
+          id: result.user_id,
+          created_at: result.user_created_at,
+          updated_at: result.user_updated_at,
+          email: result.user_email,
+          first_name: result.user_first_name,
+          last_name: result.user_last_name,
+          avatar: result.user_avatar,
+          password: result.user_password,
+        },
+      };
+    });
+    console.log(transformedResults);
+    //TODO query ne dela, napiš novga s tem:
+    //IZPIši vse quote, ki jih je lajku user tim. poleg quota izpiši tudi userja ki je uploadu quote
+    return results;
+  }
+
+  /*
+  async paginateProfileLiked(
+    userId: string,
+    page = 1,
+    relations = [],
+  ): Promise<PaginatedResultLiked> {
+    const take = 4;
+    try {
+      const [data, total] = await this.repository.query(`
+      SELECT q.id as qid, q.* as quote, u.* as user
+      FROM "quote" q
+      INNER JOIN "vote" v ON q.id = v.quote_id
+      INNER JOIN "user" u ON u.id = v.user_id
+      WHERE v.decision = 1
+      AND v.user_id = '${userId}'
+      `);
+
+      const quote = {
+        id: data.qid as string,
+        quote: data.quote as string,
+        votes: data.votes as number,
+        user_id: data.user_id as string,
+      };
+      const user2 = data.user;
+      console.log(user2);
+
+      const user = {
+        id: data.id as string,
+        first_name: data.first_name as string,
+        last_name: data.last_name as string,
+        avatar: data.avatar as string,
+      };
+
+      const quotesWithUser = {
+        quote,
+        user,
+      };
+
+      console.log(quotesWithUser);
+      return {
+        data: quote,
+        meta: {
+          total,
+          page,
+          last_page: Math.ceil(total / take),
+        },
+      };
+    } catch (error) {
+      Logging.error(error);
+      throw new InternalServerErrorException(
+        'Paginated search result unsuccessful',
+      );
+    }
+  }
+*/
   async CountQuotesByUserId(userId: string, relations = []): Promise<number> {
     try {
       const quotesCount = await this.repository.count({
